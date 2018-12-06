@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">im_socket.io</string>
+    <string name="hint_user_name">username</string>
+    <string name="login">login</string>
+    <string name="input_username">input user name</string>
+    <string name="input_head_img">upload head img</string>
+    <string name="upload_img_error">upload img error</string>
+</resources>

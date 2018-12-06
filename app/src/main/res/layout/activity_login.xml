@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <ImageView
+        android:id="@+id/iv_github_logo"
+        android:layout_width="260dp"
+        android:layout_height="267dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/icon_logo_github" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/iv_github_logo"
+        android:layout_centerHorizontal="true"
+        android:text="@string/app_name"
+        android:textColor="@color/color_333"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:id="@+id/ll_login"
+        android:layout_width="wrap_content"
+        android:layout_height="240dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+
+        <ImageView
+            android:id="@+id/iv_head"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/icon_add_img" />
+
+        <EditText
+            android:id="@+id/et_username"
+            android:layout_width="250dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:hint="@string/hint_user_name"
+            android:inputType="text"
+            android:textSize="14sp" />
+
+
+        <Button
+            android:id="@+id/btn_login"
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/color_238AFF"
+            android:text="@string/login"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+</RelativeLayout>
