@@ -49,6 +49,5 @@ abstract class MvpActivity<out P : IPresenterContract> : Activity(), IBaseView<P
     override fun onDestroy() {
         super.onDestroy()
         mPresenter?.onDestroy()
-        mPresenter = null
     }
 }

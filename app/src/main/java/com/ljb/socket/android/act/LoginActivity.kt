@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.view.View
 import android.widget.Toast
 import com.ljb.socket.android.R
 import com.ljb.socket.android.common.Constant
@@ -14,6 +15,7 @@ import com.ljb.socket.android.img.ImageLoader
 import com.ljb.socket.android.presenter.SplashPresenter
 import com.ljb.socket.android.utils.PermissionUtils
 import com.ljb.socket.android.utils.SystemUtils
+import com.ljb.socket.android.widgets.dialog.LoadingDialog
 import kotlinx.android.synthetic.main.activity_login.*
 
 /**
@@ -26,10 +28,12 @@ class LoginActivity : BaseMvpActivity<SplashContract.IPresenter>(), SplashContra
 
     private var mHeadUrl = ""
     private var mUserName = ""
+    private lateinit var mLoadingDialog: LoadingDialog
 
     override fun getLayoutId() = R.layout.activity_login
 
     override fun registerPresenter() = SplashPresenter::class.java
+
 
     override fun init(savedInstanceState: Bundle?) {
         requestInitPermission()
@@ -37,8 +41,13 @@ class LoginActivity : BaseMvpActivity<SplashContract.IPresenter>(), SplashContra
 
 
     override fun initView() {
+        mLoadingDialog = LoadingDialog(this)
         iv_head.setOnClickListener { openPicLib() }
         btn_login.setOnClickListener { login() }
+    }
+
+    override fun initData() {
+        getPresenter().checkLoginStatus()
     }
 
     private fun login() {
@@ -83,7 +92,7 @@ class LoginActivity : BaseMvpActivity<SplashContract.IPresenter>(), SplashContra
         Toast.makeText(this, R.string.upload_img_error, Toast.LENGTH_SHORT).show()
     }
 
-    override fun loginSuccess() {
+    override fun goHome() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
@@ -99,5 +108,18 @@ class LoginActivity : BaseMvpActivity<SplashContract.IPresenter>(), SplashContra
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         PermissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
+
+    override fun showLoadDialog() {
+        mLoadingDialog.show()
+    }
+
+    override fun dismissLoadDialog() {
+        mLoadingDialog.dismiss()
+    }
+
+    override fun showLoginView() {
+        ll_login.visibility = View.VISIBLE
+    }
+
 }
 

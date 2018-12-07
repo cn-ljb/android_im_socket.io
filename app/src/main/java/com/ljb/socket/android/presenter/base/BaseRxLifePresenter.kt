@@ -1,9 +1,9 @@
 package com.ljb.socket.android.presenter.base
 
+import io.reactivex.disposables.Disposable
 import mvp.ljb.kt.contract.IPresenterContract
 import mvp.ljb.kt.contract.IViewContract
 import mvp.ljb.kt.presenter.IBasePresenter
-import io.reactivex.disposables.Disposable
 import java.lang.ref.WeakReference
 import java.util.*
 
@@ -46,7 +46,6 @@ abstract class BaseRxLifePresenter<out V : IViewContract> : IBasePresenter<V>, I
 
     override fun onDestroy() {
         destroyRxLife(RxLife.ON_DESTROY)
-        mMVPView = null
     }
 
     private fun destroyRxLife(rxLife: RxLife) {

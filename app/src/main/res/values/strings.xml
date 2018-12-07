@@ -5,4 +5,8 @@
     <string name="input_username">input user name</string>
     <string name="input_head_img">upload head img</string>
     <string name="upload_img_error">upload img error</string>
+    <string name="chat">Chat</string>
+    <string name="contact">Contact</string>
+    <string name="my">My</string>
+    <string name="logout">logout</string>
 </resources>

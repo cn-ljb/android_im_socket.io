@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="50dip"
+    android:background="#f8f8f8">
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.5dp"
+        android:layout_alignParentTop="true"
+        android:background="#d2d2d2" />
+
+    <ImageView
+        android:src="@drawable/bottom_tab_chat"
+        android:id="@+id/bottom_tab_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dip" />
+
+    <TextView
+        android:text="@string/chat"
+        android:textColor="@drawable/selector_tab_text"
+        android:id="@+id/bottom_tab_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bottom_tab_icon"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dip"
+        android:gravity="center"
+        android:textSize="10sp"
+        tools:ignore="SmallSp" />
+
+</RelativeLayout>

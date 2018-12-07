@@ -51,6 +51,5 @@ abstract class MvpFragmentActivity<out P : IPresenterContract> : FragmentActivit
     override fun onDestroy() {
         super.onDestroy()
         mPresenter?.onDestroy()
-        mPresenter = null
     }
 }
