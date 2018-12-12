@@ -40,7 +40,7 @@ object HttpClient {
                 .client(mHttpClient)
                 .baseUrl(HttpConfig.getBaseUrl())
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(net.ljb.kt.client.StringConverterFactory())
+                .addConverterFactory(StringConverterFactory())
                 .build()
     }
 

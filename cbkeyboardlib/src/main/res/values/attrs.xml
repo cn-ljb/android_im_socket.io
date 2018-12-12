@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CBViewPagerIndicatorView">
+        <attr name="pageCount" format="integer"/>
+        <attr name="pointWidth" format="dimension|reference"/>
+        <attr name="pointHeight" format="dimension|reference"/>
+        <attr name="pointSpacing" format="dimension|reference"/>
+        <attr name="pointStrokeWidth" format="dimension|reference"/>
+        <attr name="unSelectColor" format="color|reference"/>
+        <attr name="selectColor" format="color|reference"/>
+        <attr name="showInLastPage" format="boolean|reference"/>
+    </declare-styleable>
+</resources>

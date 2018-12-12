@@ -9,8 +9,12 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/cbkeyboardlib" />
+            <option value="$PROJECT_DIR$/daolib" />
             <option value="$PROJECT_DIR$/mvplib" />
             <option value="$PROJECT_DIR$/netlib" />
+            <option value="$PROJECT_DIR$/pagelib" />
+            <option value="$PROJECT_DIR$/voicelib" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

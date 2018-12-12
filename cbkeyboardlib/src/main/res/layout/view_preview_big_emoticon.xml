@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_preview_big_emotion"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_gravity="bottom"
+    android:layout_margin="10dp"
+    android:background="@drawable/bg_preview_emoticon"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/iv_preview_big_emotion"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:clickable="false"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        android:padding="5dp"/>
+
+</LinearLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/rl_title"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/iv_back"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:scaleType="center"
+            android:src="@drawable/icon_back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="查看图片"
+            android:textColor="@color/color_1C1C1C"
+            android:textSize="17sp" />
+
+
+        <TextView
+            android:id="@+id/tv_page"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="15dp"
+            android:gravity="center"
+            android:text="1/32"
+            android:textColor="@color/color_1C1C1C"
+            android:textSize="17sp" />
+
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/rl_page"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/shape_photo_page_bg">
+
+
+        <com.ljb.socket.android.widgets.PhotoViewPager
+            android:id="@+id/vp_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </FrameLayout>
+
+
+</LinearLayout>

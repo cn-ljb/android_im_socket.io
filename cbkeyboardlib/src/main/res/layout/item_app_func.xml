@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/ll_root"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <!--       android:background="@drawable/bg_app_func"-->
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="@dimen/item_big_emoticon_size_default"
+            android:layout_height="@dimen/item_big_emoticon_size_default"
+            android:layout_gravity="center"
+            android:clickable="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:gravity="center"
+            android:scaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textColor="#484848"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

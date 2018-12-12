@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--PageStateLayout-->
+    <declare-styleable name="PageStateLayout">
+        <attr name="page_error" format="reference" />
+        <attr name="page_load" format="reference" />
+        <attr name="page_empty" format="reference" />
+        <attr name="page_content" format="reference" />
+    </declare-styleable>
+
+
+</resources>

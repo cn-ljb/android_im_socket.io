@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:paddingLeft="12.5dp">
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="22dp"
+        android:layout_marginTop="7dp"
+        android:background="@drawable/shape_item_chat_time_bg"
+        android:gravity="center"
+        android:paddingLeft="7.5dp"
+        android:paddingRight="7.5dp"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="12sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_normal_img" />
+
+
+        <ImageView
+            android:id="@+id/iv_picture"
+            android:layout_width="130dp"
+            android:layout_height="200dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="7dp"
+            android:layout_toRightOf="@id/iv_avatar"
+            android:scaleType="centerCrop"
+            android:src="@drawable/comment_pic_broken1" />
+
+    </RelativeLayout>
+
+</LinearLayout>

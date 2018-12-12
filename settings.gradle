@@ -1,1 +1,1 @@
-include ':app', ':mvplib', ':netlib'
+include ':app', ':mvplib', ':netlib', ':daolib', ':pagelib', 'voicelib', 'cbkeyboardlib'

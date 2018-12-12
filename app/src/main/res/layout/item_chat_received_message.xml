@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:paddingLeft="12.5dp">
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="22dp"
+        android:layout_marginTop="14sp"
+        android:background="@drawable/shape_item_chat_time_bg"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="12sp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_normal_img" />
+
+        <TextView
+            android:id="@+id/tv_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="14dp"
+            android:layout_toEndOf="@+id/iv_avatar"
+            android:layout_toRightOf="@+id/iv_avatar"
+            android:autoLink="web"
+            android:background="@drawable/icon_msg_left"
+            android:clickable="true"
+            android:focusable="true"
+            android:lineSpacingExtra="10dp"
+            android:maxWidth="225dp"
+            android:minHeight="40dp"
+            android:minWidth="40dp"
+            android:text="11212"
+            android:textColor="@color/color_1C1C1C"
+            android:textColorLink="@color/color_238AFF"
+            android:textSize="14sp" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>

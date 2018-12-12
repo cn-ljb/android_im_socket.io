@@ -23,7 +23,7 @@ object FileUtils {
 
     fun getVoiceDir(context: Context) = getDir(context, "voice")
 
-    fun getPicClipDir(context: Context): String = getDir(context, "clip_pic")
+    fun getPicClipDir(context: Context): String = getDir(context, "pic" + File.separator + "clip")
 
 
     fun getRecordDir(context: Context): String = getDir(context, "record")

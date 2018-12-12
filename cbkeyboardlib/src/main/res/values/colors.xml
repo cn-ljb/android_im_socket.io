@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <color name="transparent">#00000000</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="black_525252">#525252</color>
+    <color name="black_A0A0A0">#A0A0A0</color>
+    <color name="black_727272">#727272</color>
+    <color name="black_676767">#676767</color>
+    <color name="black_969696">#969696</color>
+    <color name="btn_send_textcolor">@color/white</color>
+    <color name="btn_select">#888888</color>
+    <color name="common_bg">@color/white</color>
+
+    <color name="spilt_line">#CFCFCF</color>
+    <color name="toolbar_spilt_line">#CDCDCD</color>
+    <color name="toolbar_btn_select">#D9D9D9</color>
+    <color name="toolbar_btn_nomal">@color/white</color>
+    <color name="signature_bg">#EDF1F9</color>
+    <color name="signature_tv_color">#FF238AFF</color>
+</resources>

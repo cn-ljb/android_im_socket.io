@@ -21,22 +21,22 @@ object ImageLoader {
 
     private val mDefRequestOptions = RequestOptions()
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .placeholder(R.color.bg_page)
-            .error(R.color.bg_page)
+            .placeholder(R.drawable.comment_pic_broken1)
+            .error(R.drawable.comment_pic_broken1)
 
     private val mCircleRequestOptions = RequestOptions
             .bitmapTransform(CropCircleTransformation())
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .placeholder(R.drawable.default_header)
-            .error(R.drawable.default_header)
+            .placeholder(R.drawable.comment_pic_broken1)
+            .error(R.drawable.comment_pic_broken1)
 
 
     fun getRoundRequest(radius: Int, type: RoundedCornersTransformation.CornerType): RequestOptions {
         return RequestOptions
                 .bitmapTransform(RoundedCornersTransformation(radius, 0, type))
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.color.bg_page)
-                .error(R.color.bg_page)
+                .placeholder(R.drawable.comment_pic_broken1)
+                .error(R.drawable.comment_pic_broken1)
     }
 
     fun getCircleRequest(): RequestOptions {
@@ -53,6 +53,11 @@ object ImageLoader {
     fun load(context: Context, resId: Int?, img: ImageView, request: RequestOptions = mDefRequestOptions) {
         if (resId == null || resId == 0 || !checkContext(context)) return
         Glide.with(context).load(resId).apply(request).into(img)
+    }
+
+    fun load(context: Context, bitmap: Bitmap, img: ImageView, request: RequestOptions = mDefRequestOptions) {
+        if (!checkContext(context)) return
+        Glide.with(context).load(bitmap).apply(request).into(img)
     }
 
     private fun checkContext(context: Context): Boolean {

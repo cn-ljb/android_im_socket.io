@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/view_line_bottom_keyboard"
+        layout="@layout/ic_spit_view_horizontal" />
+
+    <RelativeLayout
+        android:id="@+id/rl_bottom_keyboard"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/white">
+
+        <!-- 语音/文字切换-->
+        <ImageView
+            android:id="@+id/iv_voice_or_text"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="7dp"
+            android:layout_marginStart="7dp"
+            android:src="@drawable/icon_voice_normal" />
+
+        <!--语音输入-->
+        <Button
+            android:id="@+id/btn_voice"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="7dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginStart="7dp"
+            android:layout_toEndOf="@+id/iv_voice_or_text"
+            android:layout_toLeftOf="@+id/iv_face"
+            android:layout_toRightOf="@+id/iv_voice_or_text"
+            android:layout_toStartOf="@+id/iv_face"
+            android:background="@drawable/btn_voice"
+            android:gravity="center"
+            android:text="@string/btn_text_speak"
+            android:textColor="#484848"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/rl_input"
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="7dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="7dp"
+            android:layout_marginStart="7dp"
+            android:layout_toEndOf="@+id/iv_voice_or_text"
+            android:layout_toLeftOf="@+id/iv_face"
+            android:layout_toRightOf="@+id/iv_voice_or_text"
+            android:layout_toStartOf="@+id/iv_face">
+
+            <!--输入框-->
+            <com.codebear.keyboard.widget.EmoticonsEditText
+                android:textColor="#484848"
+                android:id="@+id/et_chat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/edit_shape"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="4dp"
+                android:minHeight="35dp"
+                android:paddingLeft="8dp"
+                android:paddingRight="8dp"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+        <!--表情-->
+        <ImageView
+            android:id="@+id/iv_face"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_toLeftOf="@+id/rl_multi_and_send"
+            android:layout_toStartOf="@+id/rl_multi_and_send"
+            android:src="@drawable/icon_btn_face_bg" />
+
+        <RelativeLayout
+            android:id="@+id/rl_multi_and_send"
+            android:layout_width="56dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:focusableInTouchMode="true"
+            android:orientation="horizontal">
+
+            <!--apps 功能-->
+            <ImageView
+                android:id="@+id/iv_multimedia"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerInParent="true"
+                android:src="@drawable/icon_btn_multi_bg" />
+
+            <!--发送-->
+            <Button
+                android:id="@+id/btn_send"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="50dp"
+                android:layout_height="25dp"
+                android:layout_centerInParent="true"
+                android:layout_marginEnd="5dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/btn_send_bg_disable"
+                android:text="@string/btn_text_send"
+                android:textColor="@color/btn_send_textcolor"
+                android:textSize="12sp"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <com.codebear.keyboard.widget.FuncLayout
+        android:id="@+id/fun_function"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F6F7FB"
+        android:gravity="center_vertical"
+        android:orientation="vertical" />
+</LinearLayout>

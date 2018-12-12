@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_chat_all"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_F6F7FB">
+
+
+    <include layout="@layout/layout_title" />
+
+
+    <com.codebear.keyboard.CBEmoticonsKeyBoard
+        android:id="@+id/kb_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/rl_title">
+
+
+        <com.andview.refreshview.XRefreshView
+            android:id="@+id/refresh_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rv_chat"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </com.andview.refreshview.XRefreshView>
+
+
+    </com.codebear.keyboard.CBEmoticonsKeyBoard>
+
+</RelativeLayout>

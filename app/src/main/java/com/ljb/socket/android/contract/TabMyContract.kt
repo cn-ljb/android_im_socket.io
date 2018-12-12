@@ -9,7 +9,7 @@ import mvp.ljb.kt.contract.IViewContract
  * Time:2018/12/7
  * There is a lot of misery in life
  **/
-class TabMyContract {
+interface TabMyContract {
     interface IView : IViewContract {
         fun setUserInfo(user: UserBean)
         fun goLogin()

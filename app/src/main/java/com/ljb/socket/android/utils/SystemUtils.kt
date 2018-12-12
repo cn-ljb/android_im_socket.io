@@ -4,8 +4,11 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.provider.MediaStore
-import com.ljb.socket.android.act.LoginActivity
+import android.support.v4.content.FileProvider
+import com.ljb.socket.android.BuildConfig
+import java.io.File
 
 
 /**
@@ -27,6 +30,21 @@ object SystemUtils {
         val content_url = Uri.parse(url)
         intent.data = content_url
         context.startActivity(intent)
+    }
+
+    /**
+     * 拍照
+     * */
+    fun openTakePic(act: Activity, requestCode: Int, takePicPath: String) {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        val imageUri: Uri
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+            imageUri = FileProvider.getUriForFile(act.applicationContext, "${BuildConfig.APPLICATION_ID}.fileprovider", File(takePicPath))
+        } else {
+            imageUri = Uri.fromFile(File(takePicPath))
+        }
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+        act.startActivityForResult(intent, requestCode)
     }
 
     /**

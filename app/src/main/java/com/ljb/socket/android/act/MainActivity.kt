@@ -1,6 +1,7 @@
 package com.ljb.socket.android.act
 
 import android.os.Bundle
+import android.widget.Toast
 import com.ljb.socket.android.R
 import com.ljb.socket.android.adapter.MainTabAdapter
 import com.ljb.socket.android.common.act.BaseMvpFragmentActivity
@@ -13,6 +14,7 @@ import com.ljb.socket.android.presenter.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : BaseMvpFragmentActivity<MainContract.IPresenter>(), MainContract.IView {
+
 
     private var mCurIndex: Int = 0
 
@@ -36,6 +38,10 @@ class MainActivity : BaseMvpFragmentActivity<MainContract.IPresenter>(), MainCon
         getPresenter().initSocket()
     }
 
+    override fun initData() {
+        getPresenter().initTable()
+    }
+
     override fun initView() {
         tgv_group.setOnItemClickListener { openTabFragment(it) }
         tgv_group.setAdapter(MainTabAdapter(this, mTabList))
@@ -55,4 +61,10 @@ class MainActivity : BaseMvpFragmentActivity<MainContract.IPresenter>(), MainCon
         mCurIndex = position
     }
 
+    override fun setTableInitResult(result: Boolean) {
+        if (!result) {
+            Toast.makeText(this, R.string.db_init_error, Toast.LENGTH_SHORT).show()
+            finish()
+        }
+    }
 }

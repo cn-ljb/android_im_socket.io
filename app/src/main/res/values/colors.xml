@@ -8,6 +8,10 @@
     <color name="color_333">#333</color>
     <color name="color_238AFF">#238AFF</color>
     <color name="color_A6B6BB">#A6B6BB</color>
-    <color name="color_D2D2D2">#d2d2d2</color>
-    <color name="color_FFF">#fff</color>
+    <color name="color_EAEAEA">#EAEAEA</color>
+    <color name="color_FFFFFF">#fff</color>
+    <color name="color_F6F7FB">#F6F7FB</color>
+    <color name="color_484848">#484848</color>
+    <color name="color_1C1C1C">#1c1c1c</color>
+    <color name="color_969696">#969696</color>
 </resources>

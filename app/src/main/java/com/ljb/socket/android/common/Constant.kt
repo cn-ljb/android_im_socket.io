@@ -8,7 +8,8 @@ package com.ljb.socket.android.common
 object Constant {
 
     //socket host url
-    const val SOCKET_HOST = "http://172.16.201.33:9092"
+    const val SOCKET_HOST = "http://192.168.1.5:9092"
+    const val HTTP_HOST = "http://integer.wang"
 
     object ReqCode {
         const val CODE_PIC_LIB = 0x10001
@@ -20,6 +21,12 @@ object Constant {
 
     object SPKey {
         const val KEY_USER = "user"
+        const val KEY_UID = "uid"
+    }
+
+    object DB {
+        const val NAME = "dbSocketIO"
+        const val VERSION = 1
     }
 
 }

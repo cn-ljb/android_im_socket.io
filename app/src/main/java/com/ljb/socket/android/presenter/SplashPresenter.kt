@@ -11,6 +11,7 @@ import com.ljb.socket.android.utils.SPUtils
 import com.ljb.socket.android.utils.UUIDUtils
 import io.reactivex.Observable
 import mvp.ljb.kt.presenter.getContextEx
+import net.ljb.kt.utils.NetLog
 import java.util.concurrent.TimeUnit
 
 /**
@@ -28,6 +29,7 @@ class SplashPresenter : BaseRxLifePresenter<SplashContract.IView>(), SplashContr
         val userBean = UserBean(UUIDUtils.getUUID8(), userName, headUrl)
         val userJson = JsonParser.toJson(userBean)
         SPUtils.putString(Constant.SPKey.KEY_USER, userJson)
+        SPUtils.putString(Constant.SPKey.KEY_UID , userBean.uid)
         getMvpView().goHome()
     }
 
@@ -45,6 +47,7 @@ class SplashPresenter : BaseRxLifePresenter<SplashContract.IView>(), SplashContr
             }
 
             override fun onError(e: Throwable) {
+                NetLog.e(e)
                 getMvpView().dismissLoadDialog()
                 getMvpView().uploadImgError()
             }
@@ -53,8 +56,8 @@ class SplashPresenter : BaseRxLifePresenter<SplashContract.IView>(), SplashContr
     }
 
     override fun checkLoginStatus() {
-        val userJson = SPUtils.getString(Constant.SPKey.KEY_USER)
-        if (TextUtils.isEmpty(userJson)) {
+        val uid = SPUtils.getString(Constant.SPKey.KEY_UID)
+        if (TextUtils.isEmpty(uid)) {
             getMvpView().showLoginView()
         } else {
             Observable.timer(1500, TimeUnit.MILLISECONDS)

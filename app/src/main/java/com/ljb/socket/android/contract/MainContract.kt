@@ -11,10 +11,13 @@ import mvp.ljb.kt.contract.IViewContract
 interface MainContract {
 
     interface IView : IViewContract {
+        fun setTableInitResult(result: Boolean)
     }
+
 
     interface IPresenter : IPresenterContract {
         fun initSocket()
+        fun initTable()
     }
 
 }
