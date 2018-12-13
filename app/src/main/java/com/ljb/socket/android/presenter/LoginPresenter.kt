@@ -2,13 +2,13 @@ package com.ljb.socket.android.presenter
 
 import android.text.TextUtils
 import com.ljb.socket.android.common.Constant
-import com.ljb.socket.android.contract.SplashContract
+import com.ljb.socket.android.contract.LoginContract
 import com.ljb.socket.android.model.UserBean
 import com.ljb.socket.android.presenter.base.BaseRxLifePresenter
 import com.ljb.socket.android.utils.FileUploadManager
+import com.ljb.socket.android.utils.ImeiUtils
 import com.ljb.socket.android.utils.JsonParser
 import com.ljb.socket.android.utils.SPUtils
-import com.ljb.socket.android.utils.UUIDUtils
 import io.reactivex.Observable
 import mvp.ljb.kt.presenter.getContextEx
 import net.ljb.kt.utils.NetLog
@@ -19,14 +19,14 @@ import java.util.concurrent.TimeUnit
  * Time:2018/12/5
  * There is a lot of misery in life
  **/
-class SplashPresenter : BaseRxLifePresenter<SplashContract.IView>(), SplashContract.IPresenter {
+class LoginPresenter : BaseRxLifePresenter<LoginContract.IView>(), LoginContract.IPresenter {
 
 
     private val mFileUploadManager by lazy { FileUploadManager(getContextEx()) }
 
     override fun login(userName: String, headUrl: String) {
         //模拟登陆，返回一个user model
-        val userBean = UserBean(UUIDUtils.getUUID8(), userName, headUrl)
+        val userBean = UserBean(ImeiUtils.getImei(getContextEx()), userName, headUrl)
         val userJson = JsonParser.toJson(userBean)
         SPUtils.putString(Constant.SPKey.KEY_USER, userJson)
         SPUtils.putString(Constant.SPKey.KEY_UID , userBean.uid)

@@ -10,9 +10,9 @@ import android.widget.Toast
 import com.ljb.socket.android.R
 import com.ljb.socket.android.common.Constant
 import com.ljb.socket.android.common.act.BaseMvpActivity
-import com.ljb.socket.android.contract.SplashContract
+import com.ljb.socket.android.contract.LoginContract
 import com.ljb.socket.android.img.ImageLoader
-import com.ljb.socket.android.presenter.SplashPresenter
+import com.ljb.socket.android.presenter.LoginPresenter
 import com.ljb.socket.android.utils.PermissionUtils
 import com.ljb.socket.android.utils.SystemUtils
 import com.ljb.socket.android.widgets.dialog.LoadingDialog
@@ -23,7 +23,7 @@ import kotlinx.android.synthetic.main.activity_login.*
  * Time:2018/12/5
  * There is a lot of misery in life
  **/
-class LoginActivity : BaseMvpActivity<SplashContract.IPresenter>(), SplashContract.IView {
+class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract.IView {
 
 
     private var mHeadUrl = ""
@@ -32,7 +32,7 @@ class LoginActivity : BaseMvpActivity<SplashContract.IPresenter>(), SplashContra
 
     override fun getLayoutId() = R.layout.activity_login
 
-    override fun registerPresenter() = SplashPresenter::class.java
+    override fun registerPresenter() = LoginPresenter::class.java
 
 
     override fun init(savedInstanceState: Bundle?) {
@@ -100,7 +100,10 @@ class LoginActivity : BaseMvpActivity<SplashContract.IPresenter>(), SplashContra
     }
 
     private fun requestInitPermission() {
-        val arr = arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE)
+        val arr = arrayOf(
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_PHONE_STATE,
+                Manifest.permission.ACCESS_WIFI_STATE)
         PermissionUtils.requestPermission(this, arr, Constant.PermissionCode.CODE_INIT) { permissions, result ->
             // permission result
         }

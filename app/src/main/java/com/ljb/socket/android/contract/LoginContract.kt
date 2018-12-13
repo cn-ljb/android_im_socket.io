@@ -8,7 +8,7 @@ import mvp.ljb.kt.contract.IViewContract
  * Time:2018/12/5
  * There is a lot of misery in life
  **/
-interface SplashContract {
+interface LoginContract {
 
     interface IView : IViewContract {
         fun uploadImgSuccess(url: String)
