@@ -77,10 +77,15 @@ object ChatUtils {
         return chatMessage
     }
 
+    fun copyChatMessage(chatMessage: ChatMessage): ChatMessage {
+        return JsonParser.fromJsonObj(JsonParser.toJson(chatMessage), ChatMessage::class.java)
+    }
+
     fun getAck(chatMessage: ChatMessage): String {
-        chatMessage.type = ChatMessage.TYPE_CMD
-        chatMessage.cmd = ChatMessage.CMD_RECEIVE_ACK
-        return JsonParser.toJson(chatMessage)
+        val ackChatMessage = ChatUtils.copyChatMessage(chatMessage)
+        ackChatMessage.type = ChatMessage.TYPE_CMD
+        ackChatMessage.cmd = ChatMessage.CMD_RECEIVE_ACK
+        return JsonParser.toJson(ackChatMessage)
     }
 
 
