@@ -128,7 +128,7 @@ object SocketClient {
                 if (isLinked) {
                     timer.cancel()
                     sendFun.invoke()
-                } else if (count > 60) {
+                } else if (count > 10) {
                     timer.cancel()
                 }
             }
