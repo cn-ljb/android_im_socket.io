@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:background="@color/color_FFFFFF"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="10dp"
+        android:text="下午 2:50"
+        android:textColor="@color/color_969696"
+        android:textSize="13sp" />
+
+    <ImageView
+        android:id="@+id/iv_head"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/default_header" />
+
+    <TextView
+        android:maxLength="2"
+        android:gravity="center"
+        android:id="@+id/tv_red"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginLeft="-10dp"
+        android:layout_marginTop="7dp"
+        android:layout_toRightOf="@id/iv_head"
+        android:background="@drawable/shape_red_bg"
+        android:text="20"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="9sp"
+        tools:ignore="SmallSp" />
+
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@id/tv_time"
+        android:layout_toRightOf="@id/iv_head"
+        android:ellipsize="end"
+        android:lines="1"
+        android:text="姓名"
+        android:textColor="@color/color_333"
+        android:textSize="15sp" />
+
+    <TextView
+        android:ellipsize="end"
+        android:lines="1"
+        android:id="@+id/tv_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_name"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="10dp"
+        android:text="[表情]"
+        android:textColor="@color/black_676767"
+        android:textSize="13sp" />
+
+
+</RelativeLayout>

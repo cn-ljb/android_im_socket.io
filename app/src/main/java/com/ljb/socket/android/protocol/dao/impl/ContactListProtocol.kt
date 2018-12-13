@@ -69,7 +69,7 @@ class ContactListProtocol : BaseDaoProtocol(), IContactListProtocol {
         return num
     }
 
-    private fun queryContactByIdImpl(table: ContactTable, uid: String): UserBean? {
+    override fun queryContactByIdImpl(table: ContactTable, uid: String): UserBean? {
         var bean: UserBean? = null
         var cursor: Cursor? = null
         try {

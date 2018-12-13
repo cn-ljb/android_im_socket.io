@@ -1,7 +1,7 @@
 package com.ljb.socket.android.protocol.dao
 
 import com.ljb.socket.android.protocol.dao.impl.ContactListProtocol
-import com.ljb.socket.android.protocol.dao.impl.ImHistoryDaoProtocol
+import com.ljb.socket.android.protocol.dao.impl.ChatHistoryDaoProtocol
 import com.ljb.socket.android.protocol.dao.impl.InitDaoProtocol
 import com.ljb.socket.android.protocol.dao.impl.NewNumProtocol
 import dao.ljb.kt.core.IProtocolTransform
@@ -17,7 +17,7 @@ object ProtocolConfig : IProtocolTransform {
     override fun <T> transformProtocol(clazz: Class<T>) = when (clazz) {
         IInitDaoProtocol::class.java -> InitDaoProtocol()
         IContactListProtocol::class.java -> ContactListProtocol()
-        IImHistoryDaoProtocol::class.java -> ImHistoryDaoProtocol()
+        IChatHistoryDaoProtocol::class.java -> ChatHistoryDaoProtocol()
         INewNumDaoProtocol::class.java -> NewNumProtocol()
         else -> throw IllegalStateException("not found dao interface object  : ${clazz.name}")
     } as T

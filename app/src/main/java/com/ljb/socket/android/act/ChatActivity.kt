@@ -119,6 +119,14 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         super.onDestroy()
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (mIndex != 0) {
+            scrollToPosition(mIndex)
+        }
+        getPresenter().notifyNewNum(mConversation)
+    }
+
     override fun init(savedInstanceState: Bundle?) {
         val toUser = intent.getParcelableExtra<UserBean>(KEY_TO_USER)
         val locUser = intent.getParcelableExtra<UserBean>(KEY_LOC_USER)

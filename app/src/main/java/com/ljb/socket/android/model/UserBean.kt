@@ -10,16 +10,16 @@ import android.os.Parcelable
  **/
 class UserBean(val uid: String, var name: String, var headUrl: String) : Parcelable {
 
-    constructor(parcel: Parcel) : this(
-            parcel.readString(),
-            parcel.readString(),
-            parcel.readString()) {
-    }
-
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(uid)
         parcel.writeString(name)
         parcel.writeString(headUrl)
+    }
+
+    constructor(parcel: Parcel) : this(
+            parcel.readString(),
+            parcel.readString(),
+            parcel.readString()) {
     }
 
     override fun describeContents(): Int {

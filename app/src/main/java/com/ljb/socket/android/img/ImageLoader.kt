@@ -27,8 +27,8 @@ object ImageLoader {
     private val mCircleRequestOptions = RequestOptions
             .bitmapTransform(CropCircleTransformation())
             .diskCacheStrategy(DiskCacheStrategy.ALL)
-            .placeholder(R.drawable.comment_pic_broken1)
-            .error(R.drawable.comment_pic_broken1)
+            .placeholder(R.drawable.default_header)
+            .error(R.drawable.default_header)
 
 
     fun getRoundRequest(radius: Int, type: RoundedCornersTransformation.CornerType): RequestOptions {

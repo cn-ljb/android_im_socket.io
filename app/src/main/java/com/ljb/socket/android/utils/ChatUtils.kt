@@ -1,5 +1,7 @@
 package com.ljb.socket.android.utils
 
+import android.widget.TextView
+import com.ljb.socket.android.model.BodyTxt
 import com.ljb.socket.android.model.ChatMessage
 import java.util.*
 
@@ -86,6 +88,24 @@ object ChatUtils {
         ackChatMessage.type = ChatMessage.TYPE_CMD
         ackChatMessage.cmd = ChatMessage.CMD_RECEIVE_ACK
         return JsonParser.toJson(ackChatMessage)
+    }
+
+    fun setTextViewBodyStr(tv: TextView, chatMessage: ChatMessage) {
+        when (chatMessage.bodyType) {
+            ChatMessage.MSG_BODY_TYPE_TEXT -> {
+                val bodyTxt = JsonParser.fromJsonObj(chatMessage.body, BodyTxt::class.java)
+                EmoticonFilterUtils.spannableEmoticonFilter(tv, bodyTxt.text)
+            }
+            ChatMessage.MSG_BODY_TYPE_VOICE -> {
+                tv.text = "[语音]"
+            }
+            ChatMessage.MSG_BODY_TYPE_IMAGE -> {
+                tv.text = "[图片]"
+            }
+            else -> {
+                tv.text = "[未知消息]"
+            }
+        }
     }
 
 

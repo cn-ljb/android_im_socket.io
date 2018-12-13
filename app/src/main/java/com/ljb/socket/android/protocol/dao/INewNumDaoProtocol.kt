@@ -11,11 +11,11 @@ import io.reactivex.Observable
  **/
 interface INewNumDaoProtocol : IDaoInterface {
 
-    fun deleteNewNum(table: ImNewNumTable, fromId: String = "", conversation: String = ""): Observable<Boolean>
+    fun deleteNewNum(table: ImNewNumTable, conversation: String = ""): Observable<Boolean>
 
-    fun insertNewNum(table: ImNewNumTable, num: Int, fromId: String = "", conversation: String = ""): Observable<Boolean>
+    fun insertNewNum(table: ImNewNumTable, num: Int, conversation: String = ""): Observable<Boolean>
 
-    fun queryNewNum(table: ImNewNumTable, fromId: String = "", conversation: String = ""): Observable<Int>
+    fun queryNewNum(table: ImNewNumTable, conversation: String = ""): Observable<Int>
 
-    fun queryNewNumImpl(table: ImNewNumTable, fromId: String = "", conversation: String = ""): Int
+    fun queryNewNumImpl(table: ImNewNumTable, conversation: String = ""): Int
 }

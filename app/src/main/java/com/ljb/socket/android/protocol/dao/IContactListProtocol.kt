@@ -16,4 +16,6 @@ interface IContactListProtocol : IDaoInterface {
 
     fun getAllContactList(contactTable: ContactTable): Observable<List<UserBean>>
 
+    fun queryContactByIdImpl(mContactTable: ContactTable, uid: String): UserBean?
+
 }

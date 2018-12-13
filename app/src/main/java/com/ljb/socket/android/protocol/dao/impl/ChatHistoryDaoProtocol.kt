@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import com.ljb.socket.android.db.DatabaseSqlHelper
 import com.ljb.socket.android.model.ChatMessage
-import com.ljb.socket.android.protocol.dao.IImHistoryDaoProtocol
+import com.ljb.socket.android.protocol.dao.IChatHistoryDaoProtocol
 import com.ljb.socket.android.table.ImConversationTable
 import com.senyint.ihospital.user.kt.db.table.ImHistoryTable
 import dao.ljb.kt.core.BaseDaoProtocol
@@ -17,7 +17,11 @@ import net.ljb.kt.utils.NetLog
  * There is a lot of misery in life
  **/
 
-class ImHistoryDaoProtocol : BaseDaoProtocol(), IImHistoryDaoProtocol {
+class ChatHistoryDaoProtocol : BaseDaoProtocol(), IChatHistoryDaoProtocol {
+
+    override fun queryConversation(table: ImConversationTable, conversation: String) = createObservable {
+        queryConversationImpl(table, conversation)
+    }
 
     override fun getAllConversation(table: ImConversationTable): Observable<List<ChatMessage>> = createObservable {
         getAllConversationImpl(table)
@@ -171,5 +175,22 @@ class ImHistoryDaoProtocol : BaseDaoProtocol(), IImHistoryDaoProtocol {
         }
         return resultList
     }
+
+    private fun queryConversationImpl(table: ImConversationTable, conversation: String): ChatMessage? {
+        var result: ChatMessage? = null
+        var cursor: Cursor? = null
+        try {
+            cursor = mSqliteDb.rawQuery("select * from ${table.getName()} where ${table.COLUMN_CONVERSATION}= ?", arrayOf(conversation))
+            if (cursor != null && cursor.moveToNext()) {
+                result = DatabaseSqlHelper.getChatMessage(cursor, table)
+            }
+        } catch (e: Exception) {
+            NetLog.e(e)
+        } finally {
+            cursor?.close()
+        }
+        return result
+    }
+
 
 }

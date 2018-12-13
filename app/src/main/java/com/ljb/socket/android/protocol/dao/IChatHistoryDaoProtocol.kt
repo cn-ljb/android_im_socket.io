@@ -11,7 +11,7 @@ import io.reactivex.Observable
  * Time:2018/11/10
  * There is a lot of misery in life
  **/
-interface IImHistoryDaoProtocol : IDaoInterface {
+interface IChatHistoryDaoProtocol : IDaoInterface {
 
     fun getChatHistory(table: ImHistoryTable, limitStart: Int, limitEnd: Int): Observable<List<ChatMessage>>
 
@@ -24,4 +24,6 @@ interface IImHistoryDaoProtocol : IDaoInterface {
     fun insertConversation(table: ImConversationTable, chatMessage: ChatMessage): Observable<Boolean>
 
     fun getAllConversation(table: ImConversationTable): Observable<List<ChatMessage>>
+
+    fun queryConversation(mConversationTable: ImConversationTable, conversation: String): Observable<ChatMessage?>
 }

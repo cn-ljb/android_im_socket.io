@@ -15,8 +15,8 @@ import com.ljb.socket.android.event.NewNumEvent
 import com.ljb.socket.android.event.RefreshContactListEvent
 import com.ljb.socket.android.model.ChatMessage
 import com.ljb.socket.android.model.UserBean
+import com.ljb.socket.android.protocol.dao.IChatHistoryDaoProtocol
 import com.ljb.socket.android.protocol.dao.IContactListProtocol
-import com.ljb.socket.android.protocol.dao.IImHistoryDaoProtocol
 import com.ljb.socket.android.protocol.dao.IInitDaoProtocol
 import com.ljb.socket.android.protocol.dao.INewNumDaoProtocol
 import com.ljb.socket.android.table.ContactTable
@@ -240,10 +240,10 @@ object SocketManager {
         val historyTable = ImHistoryTable(conversation)
         val newNumTable = ImNewNumTable()
         val conversationTable = ImConversationTable()
-        val subscribe = DaoFactory.getProtocol(IImHistoryDaoProtocol::class.java).insertConversation(conversationTable, chatMessage)
+        val subscribe = DaoFactory.getProtocol(IChatHistoryDaoProtocol::class.java).insertConversation(conversationTable, chatMessage)
                 .flatMap { DaoFactory.getProtocol(IInitDaoProtocol::class.java).createTableNotExists(historyTable) }
-                .flatMap { DaoFactory.getProtocol(IImHistoryDaoProtocol::class.java).insertHistory(historyTable, chatMessage) }
-                .flatMap { DaoFactory.getProtocol(INewNumDaoProtocol::class.java).insertNewNum(newNumTable, 1, chatMessage.fromId, chatMessage.conversation) }
+                .flatMap { DaoFactory.getProtocol(IChatHistoryDaoProtocol::class.java).insertHistory(historyTable, chatMessage) }
+                .flatMap { DaoFactory.getProtocol(INewNumDaoProtocol::class.java).insertNewNum(newNumTable, 1, chatMessage.conversation) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({

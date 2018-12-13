@@ -16,7 +16,6 @@ class ImNewNumTable : BaseTable() {
 
     val COLUMN_ID = BaseColumns._ID
     val COLUMN_NEW_NUM = "newNum"
-    val COLUMN_FROM_ID = "fromId"
     val COLUMN_CONVERSATION = "conversation"
 
 
@@ -24,7 +23,6 @@ class ImNewNumTable : BaseTable() {
         val tableColumns = HashMap<String, String>()
         tableColumns[COLUMN_ID] = "integer primary key autoincrement"
         tableColumns[COLUMN_NEW_NUM] = TYPE_INTEGER
-        tableColumns[COLUMN_FROM_ID] = TYPE_TEXT
         tableColumns[COLUMN_CONVERSATION] = TYPE_TEXT
         return tableColumns
     }

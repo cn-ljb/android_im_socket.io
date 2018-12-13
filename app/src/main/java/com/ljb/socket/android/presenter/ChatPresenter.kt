@@ -9,7 +9,7 @@ import com.ljb.socket.android.model.BodyTxt
 import com.ljb.socket.android.model.BodyVoice
 import com.ljb.socket.android.model.ChatMessage
 import com.ljb.socket.android.presenter.base.BaseRxLifePresenter
-import com.ljb.socket.android.protocol.dao.IImHistoryDaoProtocol
+import com.ljb.socket.android.protocol.dao.IChatHistoryDaoProtocol
 import com.ljb.socket.android.protocol.dao.IInitDaoProtocol
 import com.ljb.socket.android.protocol.dao.INewNumDaoProtocol
 import com.ljb.socket.android.socket.SocketEvent
@@ -18,7 +18,6 @@ import com.ljb.socket.android.table.ImConversationTable
 import com.ljb.socket.android.utils.ChatUtils
 import com.ljb.socket.android.utils.FileUploadManager
 import com.ljb.socket.android.utils.JsonParser
-import com.ljb.socket.android.utils.RxUtils
 import com.senyint.ihospital.user.kt.db.table.ImHistoryTable
 import com.senyint.ihospital.user.kt.db.table.ImNewNumTable
 import dao.ljb.kt.core.DaoFactory
@@ -56,7 +55,7 @@ class ChatPresenter : BaseRxLifePresenter<ChatContract.IView>(), ChatContract.IP
                 .map { mMsgCount = it }
                 .filter { mMsgCount > 0 }
                 .map { computeLimit() }
-                .flatMap { DaoFactory.getProtocol(IImHistoryDaoProtocol::class.java).getChatHistory(mHistoryTable, mLimitStart, mLimitEnd) }
+                .flatMap { DaoFactory.getProtocol(IChatHistoryDaoProtocol::class.java).getChatHistory(mHistoryTable, mLimitStart, mLimitEnd) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(onNext = { getMvpView().setChatHistory(false, it) })
@@ -68,7 +67,7 @@ class ChatPresenter : BaseRxLifePresenter<ChatContract.IView>(), ChatContract.IP
             getMvpView().setChatHistory(true, listOf())
         } else {
             computeLimit()
-            DaoFactory.getProtocol(IImHistoryDaoProtocol::class.java)
+            DaoFactory.getProtocol(IChatHistoryDaoProtocol::class.java)
                     .getChatHistory(mHistoryTable, mLimitStart, mLimitEnd)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
@@ -78,7 +77,7 @@ class ChatPresenter : BaseRxLifePresenter<ChatContract.IView>(), ChatContract.IP
     }
 
     override fun gatAllChatPic(pid: String) {
-        DaoFactory.getProtocol(IImHistoryDaoProtocol::class.java)
+        DaoFactory.getProtocol(IChatHistoryDaoProtocol::class.java)
                 .getImageChatHistory(mHistoryTable)
                 .map { transformPicData(pid, it) }
                 .subscribeOn(Schedulers.io())
@@ -102,7 +101,7 @@ class ChatPresenter : BaseRxLifePresenter<ChatContract.IView>(), ChatContract.IP
     }
 
     override fun setVoiceIsRead(chatMessage: ChatMessage) {
-        DaoFactory.getProtocol(IImHistoryDaoProtocol::class.java)
+        DaoFactory.getProtocol(IChatHistoryDaoProtocol::class.java)
                 .setVoiceMsgRead(mHistoryTable, chatMessage)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -194,8 +193,8 @@ class ChatPresenter : BaseRxLifePresenter<ChatContract.IView>(), ChatContract.IP
     }
 
     protected fun updateHistoryAndConversation(chatMsg: ChatMessage, next: (() -> Unit)? = null) {
-        DaoFactory.getProtocol(IImHistoryDaoProtocol::class.java).insertHistory(mHistoryTable, chatMsg)
-                .flatMap { DaoFactory.getProtocol(IImHistoryDaoProtocol::class.java).insertConversation(ImConversationTable(), chatMsg) }
+        DaoFactory.getProtocol(IChatHistoryDaoProtocol::class.java).insertHistory(mHistoryTable, chatMsg)
+                .flatMap { DaoFactory.getProtocol(IChatHistoryDaoProtocol::class.java).insertConversation(ImConversationTable(), chatMsg) }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(onNext = { next?.invoke() })

@@ -91,13 +91,8 @@ object DatabaseSqlHelper {
     }
 
 
-    fun getNewNumWhereSql(table: ImNewNumTable, from_uid: String, conversation: String): String {
+    fun getNewNumWhereSql(table: ImNewNumTable, conversation: String): String {
         var where = ""
-
-        if (!TextUtils.isEmpty(from_uid)) {
-            where = "${table.COLUMN_FROM_ID}='$from_uid'"
-        }
-
         if (!TextUtils.isEmpty(conversation)) {
             if (TextUtils.isEmpty(where)) {
                 where = "${table.COLUMN_CONVERSATION}='$conversation'"
