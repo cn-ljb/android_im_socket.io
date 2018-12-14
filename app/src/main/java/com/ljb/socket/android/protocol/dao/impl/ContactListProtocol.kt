@@ -4,7 +4,7 @@ import android.content.ContentValues
 import android.database.Cursor
 import com.ljb.socket.android.db.DatabaseSqlHelper
 import com.ljb.socket.android.model.UserBean
-import com.ljb.socket.android.protocol.dao.IContactListProtocol
+import com.ljb.socket.android.protocol.dao.IContactProtocol
 import com.ljb.socket.android.table.ContactTable
 import dao.ljb.kt.core.BaseDaoProtocol
 import net.ljb.kt.utils.NetLog
@@ -14,7 +14,10 @@ import net.ljb.kt.utils.NetLog
  * Time:2018/12/7
  * There is a lot of misery in life
  **/
-class ContactListProtocol : BaseDaoProtocol(), IContactListProtocol {
+class ContactListProtocol : BaseDaoProtocol(), IContactProtocol {
+    override fun queryContactById(contactTable: ContactTable, uid: String) = createObservable {
+        queryContactByIdImpl(contactTable , uid)
+    }
 
     override fun getAllContactList(contactTable: ContactTable) = createObservable {
         getAllContactListImpl(contactTable)

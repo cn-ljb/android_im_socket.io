@@ -10,12 +10,14 @@ import io.reactivex.Observable
  * Time:2018/12/7
  * There is a lot of misery in life
  **/
-interface IContactListProtocol : IDaoInterface {
+interface IContactProtocol : IDaoInterface {
 
     fun insertContactList(table: ContactTable, contactList: List<UserBean>): Observable<Boolean>
 
     fun getAllContactList(contactTable: ContactTable): Observable<List<UserBean>>
 
-    fun queryContactByIdImpl(mContactTable: ContactTable, uid: String): UserBean?
+    fun queryContactByIdImpl(contactTable: ContactTable, uid: String): UserBean?
+
+    fun queryContactById(contactTable: ContactTable, uid: String): Observable<UserBean?>
 
 }

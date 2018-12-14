@@ -8,7 +8,7 @@ import com.ljb.socket.android.model.ChatMessage
 import com.ljb.socket.android.model.ConversationBean
 import com.ljb.socket.android.presenter.base.BaseRxLifePresenter
 import com.ljb.socket.android.protocol.dao.IChatHistoryDaoProtocol
-import com.ljb.socket.android.protocol.dao.IContactListProtocol
+import com.ljb.socket.android.protocol.dao.IContactProtocol
 import com.ljb.socket.android.protocol.dao.INewNumDaoProtocol
 import com.ljb.socket.android.table.ContactTable
 import com.ljb.socket.android.table.ImConversationTable
@@ -48,7 +48,7 @@ class TabChatPresenter : BaseRxLifePresenter<TabChatContract.IView>(), TabChatCo
         val locUid = SPUtils.getString(Constant.SPKey.KEY_UID)
         for (chatMessage in list) {
             val uid = if (locUid == chatMessage.fromId) chatMessage.toId else chatMessage.fromId
-            val user = DaoFactory.getProtocol(IContactListProtocol::class.java).queryContactByIdImpl(mContactTable, uid)
+            val user = DaoFactory.getProtocol(IContactProtocol::class.java).queryContactByIdImpl(mContactTable, uid)
             val newNum = DaoFactory.getProtocol(INewNumDaoProtocol::class.java).queryNewNumImpl(mNewNumTable, chatMessage.conversation)
             if (user == null) continue
             data.add(ConversationBean(chatMessage, user, newNum))
@@ -59,7 +59,7 @@ class TabChatPresenter : BaseRxLifePresenter<TabChatContract.IView>(), TabChatCo
     private fun transformUserAndNewNum(chatMessage: ChatMessage): ConversationBean? {
         val locUid = SPUtils.getString(Constant.SPKey.KEY_UID)
         val uid = if (locUid == chatMessage.fromId) chatMessage.toId else chatMessage.fromId
-        val user = DaoFactory.getProtocol(IContactListProtocol::class.java).queryContactByIdImpl(mContactTable, uid)
+        val user = DaoFactory.getProtocol(IContactProtocol::class.java).queryContactByIdImpl(mContactTable, uid)
         val newNum = DaoFactory.getProtocol(INewNumDaoProtocol::class.java).queryNewNumImpl(mNewNumTable, chatMessage.conversation)
         if (user == null) return null
         return ConversationBean(chatMessage, user, newNum)

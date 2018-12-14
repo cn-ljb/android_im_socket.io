@@ -29,7 +29,7 @@ class ChatListAdapter(context: Context, data: MutableList<ConversationBean>) : B
             ImageLoader.load(context, item.user.headUrl, holder.ivHead, ImageLoader.getCircleRequest())
             holder.tvTime.text = TimeUtils.formatChatMessageTime(item.chatMessage.time)
             holder.tvName.text = item.user.name
-            ChatUtils.setTextViewBodyStr(holder.tvMsg, item.chatMessage)
+            ChatUtils.setTextViewBody(holder.tvMsg, item.chatMessage)
             if (item.newNum > 0) {
                 holder.tvRed.visibility = View.VISIBLE
                 holder.tvRed.text = if (item.newNum < 99) item.newNum.toString() else "99"

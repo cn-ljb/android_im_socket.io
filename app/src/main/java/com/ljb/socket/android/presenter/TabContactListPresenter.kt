@@ -4,7 +4,7 @@ import com.ljb.page.PageStateLayout
 import com.ljb.socket.android.common.ex.subscribeEx
 import com.ljb.socket.android.contract.TabContactListContract
 import com.ljb.socket.android.presenter.base.BaseRxLifePresenter
-import com.ljb.socket.android.protocol.dao.IContactListProtocol
+import com.ljb.socket.android.protocol.dao.IContactProtocol
 import com.ljb.socket.android.table.ContactTable
 import dao.ljb.kt.core.DaoFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -20,7 +20,7 @@ class TabContactListPresenter : BaseRxLifePresenter<TabContactListContract.IView
     private val contactTable by lazy { ContactTable() }
 
     override fun getContactList() {
-        DaoFactory.getProtocol(IContactListProtocol::class.java)
+        DaoFactory.getProtocol(IContactProtocol::class.java)
                 .getAllContactList(contactTable)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

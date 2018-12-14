@@ -90,7 +90,7 @@ object ChatUtils {
         return JsonParser.toJson(ackChatMessage)
     }
 
-    fun setTextViewBodyStr(tv: TextView, chatMessage: ChatMessage) {
+    fun setTextViewBody(tv: TextView, chatMessage: ChatMessage) {
         when (chatMessage.bodyType) {
             ChatMessage.MSG_BODY_TYPE_TEXT -> {
                 val bodyTxt = JsonParser.fromJsonObj(chatMessage.body, BodyTxt::class.java)
@@ -104,6 +104,23 @@ object ChatUtils {
             }
             else -> {
                 tv.text = "[未知消息]"
+            }
+        }
+    }
+
+    fun setBodyStr(chatMessage: ChatMessage): String {
+        return when (chatMessage.bodyType) {
+            ChatMessage.MSG_BODY_TYPE_TEXT -> {
+                JsonParser.fromJsonObj(chatMessage.body, BodyTxt::class.java).text
+            }
+            ChatMessage.MSG_BODY_TYPE_VOICE -> {
+                "[语音]"
+            }
+            ChatMessage.MSG_BODY_TYPE_IMAGE -> {
+                "[图片]"
+            }
+            else -> {
+                "[未知消息]"
             }
         }
     }

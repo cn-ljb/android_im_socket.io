@@ -20,6 +20,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".act.LoginActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +31,7 @@
 
         <activity
             android:name=".act.MainActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" />
 
         <activity
@@ -46,6 +48,7 @@
             android:label="SocketService"
             android:process=":socket" />
 
+        <receiver android:name=".socket.notify.SocketNotificationClickReceiver" />
 
         <provider
             android:name="android.support.v4.content.FileProvider"

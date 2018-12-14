@@ -1,8 +1,19 @@
 package com.ljb.socket.android.model
 
-class ChatMessage {
+import android.os.Parcel
+import android.os.Parcelable
 
-    companion object {
+class ChatMessage() : Parcelable {
+
+    companion object CREATOR : Parcelable.Creator<ChatMessage> {
+
+        override fun createFromParcel(parcel: Parcel): ChatMessage {
+            return ChatMessage(parcel)
+        }
+
+        override fun newArray(size: Int): Array<ChatMessage?> {
+            return arrayOfNulls(size)
+        }
 
         //聊天类型
         const val TYPE_CHAT = 1
@@ -45,4 +56,42 @@ class ChatMessage {
     var time: Long = 0L
     var status: Int = MSG_STATUS_SEND_ING
     var read: Int = MSG_VOICE_NOT_READ
+
+    constructor(parcel: Parcel) : this() {
+        fromId = parcel.readString()
+        toId = parcel.readString()
+        topic = parcel.readString()
+        conversation = parcel.readString()
+        pid = parcel.readString()
+        dev = parcel.readInt()
+        type = parcel.readInt()
+        cmd = parcel.readInt()
+        body = parcel.readString()
+        bodyType = parcel.readInt()
+        time = parcel.readLong()
+        status = parcel.readInt()
+        read = parcel.readInt()
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(fromId)
+        parcel.writeString(toId)
+        parcel.writeString(topic)
+        parcel.writeString(conversation)
+        parcel.writeString(pid)
+        parcel.writeInt(dev)
+        parcel.writeInt(type)
+        parcel.writeInt(cmd)
+        parcel.writeString(body)
+        parcel.writeInt(bodyType)
+        parcel.writeLong(time)
+        parcel.writeInt(status)
+        parcel.writeInt(read)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+
 }

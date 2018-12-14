@@ -16,9 +16,10 @@ import com.ljb.socket.android.event.RefreshContactListEvent
 import com.ljb.socket.android.model.ChatMessage
 import com.ljb.socket.android.model.UserBean
 import com.ljb.socket.android.protocol.dao.IChatHistoryDaoProtocol
-import com.ljb.socket.android.protocol.dao.IContactListProtocol
+import com.ljb.socket.android.protocol.dao.IContactProtocol
 import com.ljb.socket.android.protocol.dao.IInitDaoProtocol
 import com.ljb.socket.android.protocol.dao.INewNumDaoProtocol
+import com.ljb.socket.android.socket.notify.SocketNotificationManager
 import com.ljb.socket.android.table.ContactTable
 import com.ljb.socket.android.table.ImConversationTable
 import com.ljb.socket.android.utils.ChatUtils
@@ -88,6 +89,12 @@ object SocketManager {
      * 退出Socket
      * */
     fun logoutSocket(context: Context) {
+
+        SocketNotificationManager.releaseAll()
+
+        mRxLife.map { RxUtils.dispose(it.get()) }
+        mRxLife.clear()
+
         val appContext = context.applicationContext
         // 关闭Socket
         val intent = Intent(context, SocketService::class.java)
@@ -106,12 +113,6 @@ object SocketManager {
             appContext.unregisterReceiver(mResponseCallReceiver)
             mResponseCallReceiver = null
         }
-        clearRxLife()
-    }
-
-    private fun clearRxLife() {
-        mRxLife.map { RxUtils.dispose(it.get()) }
-        mRxLife.clear()
     }
 
 
@@ -234,7 +235,7 @@ object SocketManager {
      * 聊天信息
      * */
     private fun handleImChatMessage(context: Context, chatMessage: ChatMessage) {
-        //回调服务器端，已接收到消息
+        //已接收到消息 , 回调服务器端
         sendAsk(context, SocketEvent.EVENT_CHAT, ChatUtils.getAck(chatMessage))
         val conversation = ChatUtils.createConversation(chatMessage.topic, chatMessage.fromId, chatMessage.toId)
         val historyTable = ImHistoryTable(conversation)
@@ -248,7 +249,7 @@ object SocketManager {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe({
                     sendChatEvent(chatMessage)
-//                    SocketNotificationManager.showNotificationMessage(context, chatMessage)
+                    SocketNotificationManager.showNotificationMessage(context, chatMessage)
                 }, { NetLog.e(it) })
         mRxLife.add(WeakReference(subscribe))
     }
@@ -273,7 +274,7 @@ object SocketManager {
         val contactList = JsonParser.fromJsonArr(body, UserBean::class.java)
         val disposable = DaoFactory.getProtocol(IInitDaoProtocol::class.java).createTableNotExists(table)
                 .map { transformContactList(contactList) }
-                .flatMap { DaoFactory.getProtocol(IContactListProtocol::class.java).insertContactList(table, it) }
+                .flatMap { DaoFactory.getProtocol(IContactProtocol::class.java).insertContactList(table, it) }
                 .filter { it }
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -111,12 +111,10 @@ class FileUploadManager(var mContext: Context?) {
     }
 
     private fun sendRequest(body: MultipartBody, uploadCall: FileUploadCallBack) {
-
         val request = Request.Builder()
                 .url(FILE_SERVICE_HOST)
                 .post(body)
                 .build()
-
         val subscribe = Observable.create<ArrayList<String>> { it ->
             val response = HttpClient.getLongHttpClient().newCall(request).execute()
             if (response.isSuccessful) {

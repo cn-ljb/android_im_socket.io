@@ -13,6 +13,7 @@ import android.os.IBinder
 import android.util.Log
 import com.ljb.socket.android.BuildConfig
 import com.ljb.socket.android.R
+import com.ljb.socket.android.socket.notify.SocketNotificationChannel
 
 /**
  * IM通讯Service
@@ -69,15 +70,7 @@ class SocketService : Service() {
         Log.i(TAG, "onCreate()")
         super.onCreate()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val notificationChannel = NotificationChannel(BuildConfig.APPLICATION_ID,
-                    "senyint IM", NotificationManager.IMPORTANCE_HIGH)
-            notificationChannel.enableLights(true)
-            notificationChannel.lightColor = Color.RED
-            notificationChannel.setShowBadge(true)
-            notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
-            val manager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            manager.createNotificationChannel(notificationChannel)
-
+            SocketNotificationChannel.initChannel(this, BuildConfig.APPLICATION_ID)
             val icon = BitmapFactory.decodeResource(resources, R.mipmap.icon_app)
             val notification = Notification.Builder(this)
                     .setChannelId(BuildConfig.APPLICATION_ID)
@@ -86,7 +79,6 @@ class SocketService : Service() {
                     .setSmallIcon(R.mipmap.icon_app)
                     .setLargeIcon(icon)
                     .build()
-
             startForeground(ID_NOTIFICATION, notification)
         }
     }

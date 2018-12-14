@@ -16,7 +16,7 @@ object ProtocolConfig : IProtocolTransform {
     @Suppress("UNCHECKED_CAST", "IMPLICIT_CAST_TO_ANY")
     override fun <T> transformProtocol(clazz: Class<T>) = when (clazz) {
         IInitDaoProtocol::class.java -> InitDaoProtocol()
-        IContactListProtocol::class.java -> ContactListProtocol()
+        IContactProtocol::class.java -> ContactListProtocol()
         IChatHistoryDaoProtocol::class.java -> ChatHistoryDaoProtocol()
         INewNumDaoProtocol::class.java -> NewNumProtocol()
         else -> throw IllegalStateException("not found dao interface object  : ${clazz.name}")

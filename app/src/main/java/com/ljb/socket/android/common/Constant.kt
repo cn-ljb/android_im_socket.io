@@ -23,6 +23,7 @@ object Constant {
     object SPKey {
         const val KEY_USER = "user"
         const val KEY_UID = "uid"
+        const val SWITCH_NOTIFICATION = "switch_notification"
     }
 
     object DB {

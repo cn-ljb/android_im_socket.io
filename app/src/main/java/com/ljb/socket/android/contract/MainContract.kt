@@ -1,5 +1,6 @@
 package com.ljb.socket.android.contract
 
+import com.ljb.socket.android.model.UserBean
 import mvp.ljb.kt.contract.IPresenterContract
 import mvp.ljb.kt.contract.IViewContract
 
@@ -13,6 +14,7 @@ interface MainContract {
     interface IView : IViewContract {
         fun setTableInitResult(result: Boolean)
         fun updateNewNum(newNum: Int)
+        fun openIm(user: UserBean?)
     }
 
 
@@ -20,6 +22,7 @@ interface MainContract {
         fun initSocket()
         fun initTable()
         fun queryNewNum()
+        fun getContactById(fromId: String)
     }
 
 }

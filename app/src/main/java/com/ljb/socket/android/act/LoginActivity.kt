@@ -57,7 +57,7 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
             return
         }
         //test
-//        mHeadUrl = "https://avatars2.githubusercontent.com/u/10775316?s=400&u=1c02314e0bf6a7cf695152cbd42b3fa7ab9a8f49&v=4"
+        mHeadUrl = "https://avatars2.githubusercontent.com/u/10775316?s=400&u=1c02314e0bf6a7cf695152cbd42b3fa7ab9a8f49&v=4"
         if (TextUtils.isEmpty(mHeadUrl)) {
             Toast.makeText(this, R.string.input_head_img, Toast.LENGTH_SHORT).show()
             return

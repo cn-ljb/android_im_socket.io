@@ -1,17 +1,25 @@
 package com.ljb.socket.android.act
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import com.ljb.socket.android.R
+import com.ljb.socket.android.SocketIOApplication
 import com.ljb.socket.android.adapter.MainTabAdapter
+import com.ljb.socket.android.common.Constant
 import com.ljb.socket.android.common.act.BaseMvpFragmentActivity
 import com.ljb.socket.android.contract.MainContract
 import com.ljb.socket.android.event.NewNumEvent
 import com.ljb.socket.android.fragment.TabChatListFragment
 import com.ljb.socket.android.fragment.TabContactListFragment
 import com.ljb.socket.android.fragment.TabMyFragment
+import com.ljb.socket.android.model.ChatMessage
 import com.ljb.socket.android.model.TabBean
+import com.ljb.socket.android.model.UserBean
 import com.ljb.socket.android.presenter.MainPresenter
+import com.ljb.socket.android.socket.notify.SocketNotificationClickReceiver
+import com.ljb.socket.android.utils.JsonParser
+import com.ljb.socket.android.utils.SPUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import org.greenrobot.eventbus.EventBus
 import org.greenrobot.eventbus.Subscribe
@@ -37,6 +45,7 @@ class MainActivity : BaseMvpFragmentActivity<MainContract.IPresenter>(), MainCon
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         EventBus.getDefault().register(this)
+        handleIntent(intent)
     }
 
     override fun onDestroy() {
@@ -51,6 +60,7 @@ class MainActivity : BaseMvpFragmentActivity<MainContract.IPresenter>(), MainCon
     override fun init(savedInstanceState: Bundle?) {
         getPresenter().initSocket()
     }
+
 
     override fun initData() {
         getPresenter().initTable()
@@ -92,6 +102,24 @@ class MainActivity : BaseMvpFragmentActivity<MainContract.IPresenter>(), MainCon
     override fun updateNewNum(newNum: Int) {
         mAdapter.mData[0].newNum = newNum
         mAdapter.notifyItemChanged(0)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        if (intent == null) return
+        val chatMessage = intent.getParcelableExtra<ChatMessage>(SocketNotificationClickReceiver.KEY_CHAT_MESSAGE)
+                ?: return
+        getPresenter().getContactById(chatMessage.fromId)
+    }
+
+    override fun openIm(user: UserBean?) {
+        if (user == null) return
+        val locUser = JsonParser.fromJsonObj(SPUtils.getString(Constant.SPKey.KEY_USER), UserBean::class.java)
+        ChatActivity.startActivity(this, locUser, user)
     }
 
 }
