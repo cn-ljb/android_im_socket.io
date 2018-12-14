@@ -12,12 +12,14 @@ interface MainContract {
 
     interface IView : IViewContract {
         fun setTableInitResult(result: Boolean)
+        fun updateNewNum(newNum: Int)
     }
 
 
     interface IPresenter : IPresenterContract {
         fun initSocket()
         fun initTable()
+        fun queryNewNum()
     }
 
 }

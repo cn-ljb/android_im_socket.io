@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="20dp"
-    android:paddingRight="12.5dp">
+    android:paddingBottom="20dp">
 
     <TextView
         android:id="@+id/tv_time"
@@ -24,7 +23,9 @@
 
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_gravity="right"
+        android:layout_marginRight="12.5dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -46,6 +47,8 @@
             android:src="@drawable/comment_pic_broken1" />
 
         <ImageView
+            android:visibility="gone"
+            android:layout_centerVertical="true"
             android:id="@+id/iv_send_msg_fail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,7 +57,7 @@
             android:clickable="true"
             android:scaleType="fitCenter"
             android:src="@drawable/message_icon_fail_normal"
-            android:visibility="invisible" />
+            />
 
         <com.ljb.socket.android.widgets.ProgressWheel
             android:id="@+id/progress_load"

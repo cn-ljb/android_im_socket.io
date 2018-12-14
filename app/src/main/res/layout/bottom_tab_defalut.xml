@@ -12,16 +12,14 @@
         android:background="#d2d2d2" />
 
     <ImageView
-        android:src="@drawable/bottom_tab_chat"
         android:id="@+id/bottom_tab_icon"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dip" />
+        android:layout_marginTop="8dip"
+        android:src="@drawable/bottom_tab_chat" />
 
     <TextView
-        android:text="@string/chat"
-        android:textColor="@drawable/selector_tab_text"
         android:id="@+id/bottom_tab_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -29,7 +27,26 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="3dip"
         android:gravity="center"
+        android:text="@string/chat"
+        android:textColor="@drawable/selector_tab_text"
         android:textSize="10sp"
         tools:ignore="SmallSp" />
+
+
+    <TextView
+        android:id="@+id/tv_bottom_red"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginLeft="-10dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@id/bottom_tab_icon"
+        android:background="@drawable/shape_red_bg"
+        android:gravity="center"
+        android:maxLength="2"
+        android:text="20"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="9sp"
+        tools:ignore="SmallSp" />
+
 
 </RelativeLayout>

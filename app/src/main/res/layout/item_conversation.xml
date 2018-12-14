@@ -69,5 +69,10 @@
         android:textColor="@color/black_676767"
         android:textSize="13sp" />
 
+    <View
+        android:background="@color/color_EAEAEA"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
 
 </RelativeLayout>

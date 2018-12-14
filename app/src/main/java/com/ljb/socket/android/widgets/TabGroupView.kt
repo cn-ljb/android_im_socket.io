@@ -15,6 +15,8 @@ import com.ljb.socket.android.R
  */
 class TabGroupView : LinearLayout {
 
+    private var mTabAdapter: TabAdapter? = null
+
     private var mOnItemClickListener: ((position: Int) -> Unit)? = null
 
     constructor(context: Context) : super(context)
@@ -29,16 +31,20 @@ class TabGroupView : LinearLayout {
 
     fun setAdapter(adapter: TabAdapter?) {
         if (adapter != null && adapter.getCount() > 0) {
+            mTabAdapter = adapter
             for (i in 0 until adapter.getCount()) {
-                val tabView = adapter.getTabView(i, this)
+                val tabView = adapter.createTabView(i, this)
                 val params = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT)
                 params.weight = 1f
                 params.gravity = Gravity.CENTER
                 addView(tabView, params)
                 tabView.setOnClickListener { mOnItemClickListener?.invoke(i) }
+                adapter.mViews.add(tabView)
+                adapter.bindData(i, tabView)
             }
         }
     }
+
 
     fun setSelectedPosition(position: Int) {
         initUnSelected()
@@ -54,9 +60,17 @@ class TabGroupView : LinearLayout {
     }
 
 
-    interface TabAdapter {
-        fun getCount(): Int
-        fun getTabView(position: Int, parent: ViewGroup?): View
+    abstract class TabAdapter {
+
+        val mViews = ArrayList<View>()
+
+        abstract fun getCount(): Int
+        abstract fun createTabView(position: Int, parent: ViewGroup?): View
+        abstract fun bindData(position: Int, itemView: View)
+
+        fun notifyItemChanged(position: Int) {
+            bindData(position, mViews[position])
+        }
     }
 
 }

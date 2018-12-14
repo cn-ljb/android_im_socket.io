@@ -6,15 +6,17 @@ import com.ljb.socket.android.R
 import com.ljb.socket.android.adapter.MainTabAdapter
 import com.ljb.socket.android.common.act.BaseMvpFragmentActivity
 import com.ljb.socket.android.contract.MainContract
+import com.ljb.socket.android.event.NewNumEvent
 import com.ljb.socket.android.fragment.TabChatListFragment
 import com.ljb.socket.android.fragment.TabContactListFragment
 import com.ljb.socket.android.fragment.TabMyFragment
 import com.ljb.socket.android.model.TabBean
 import com.ljb.socket.android.presenter.MainPresenter
 import kotlinx.android.synthetic.main.activity_main.*
+import org.greenrobot.eventbus.EventBus
+import org.greenrobot.eventbus.Subscribe
 
 class MainActivity : BaseMvpFragmentActivity<MainContract.IPresenter>(), MainContract.IView {
-
 
     private var mCurIndex: Int = 0
 
@@ -30,6 +32,18 @@ class MainActivity : BaseMvpFragmentActivity<MainContract.IPresenter>(), MainCon
             TabBean(R.drawable.bottom_tab_my, R.string.my)
     )
 
+    private lateinit var mAdapter: MainTabAdapter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        EventBus.getDefault().register(this)
+    }
+
+    override fun onDestroy() {
+        EventBus.getDefault().unregister(this)
+        super.onDestroy()
+    }
+
     override fun registerPresenter() = MainPresenter::class.java
 
     override fun getLayoutId() = R.layout.activity_main
@@ -43,8 +57,9 @@ class MainActivity : BaseMvpFragmentActivity<MainContract.IPresenter>(), MainCon
     }
 
     override fun initView() {
+        mAdapter = MainTabAdapter(this, mTabList)
         tgv_group.setOnItemClickListener { openTabFragment(it) }
-        tgv_group.setAdapter(MainTabAdapter(this, mTabList))
+        tgv_group.setAdapter(mAdapter)
         openTabFragment(mCurIndex)
     }
 
@@ -67,4 +82,16 @@ class MainActivity : BaseMvpFragmentActivity<MainContract.IPresenter>(), MainCon
             finish()
         }
     }
+
+
+    @Subscribe
+    fun onNewNumEvent(event: NewNumEvent) {
+        getPresenter().queryNewNum()
+    }
+
+    override fun updateNewNum(newNum: Int) {
+        mAdapter.mData[0].newNum = newNum
+        mAdapter.notifyItemChanged(0)
+    }
+
 }

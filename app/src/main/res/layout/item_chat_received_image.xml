@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingBottom="20dp"
-    android:paddingLeft="12.5dp">
+    android:paddingBottom="20dp">
 
     <TextView
         android:id="@+id/tv_time"
@@ -21,7 +20,8 @@
         android:textSize="12sp" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_marginLeft="12.5dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
         <ImageView

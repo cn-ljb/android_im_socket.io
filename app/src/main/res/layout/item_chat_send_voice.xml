@@ -5,8 +5,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingBottom="20dp"
-    android:paddingRight="12.5dp">
+    android:paddingBottom="20dp">
 
     <TextView
         android:id="@+id/tv_time"
@@ -23,8 +22,10 @@
         android:textSize="12sp" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="12.5dp">
 
         <ImageView
             android:id="@+id/iv_avatar"

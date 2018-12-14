@@ -2,6 +2,7 @@ package com.ljb.socket.android.fragment
 
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SimpleItemAnimator
 import android.view.View
 import com.ljb.page.PageStateLayout
 import com.ljb.socket.android.R
@@ -60,6 +61,10 @@ class TabChatListFragment : BaseMvpFragment<TabChatContract.IPresenter>(), TabCh
             mAdapter = ChatListAdapter(activity!!, mutableListOf())
             mAdapter.setOnItemClickListener(this@TabChatListFragment)
             adapter = mAdapter
+            val itemAnimator = itemAnimator
+            if (itemAnimator is SimpleItemAnimator) {
+                itemAnimator.supportsChangeAnimations = false
+            }
         }
     }
 

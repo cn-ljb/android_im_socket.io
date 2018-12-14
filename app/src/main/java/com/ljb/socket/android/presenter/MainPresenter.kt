@@ -6,9 +6,11 @@ import com.ljb.socket.android.contract.MainContract
 import com.ljb.socket.android.model.UserBean
 import com.ljb.socket.android.presenter.base.BaseRxLifePresenter
 import com.ljb.socket.android.protocol.dao.IInitDaoProtocol
+import com.ljb.socket.android.protocol.dao.INewNumDaoProtocol
 import com.ljb.socket.android.socket.SocketManager
 import com.ljb.socket.android.utils.JsonParser
 import com.ljb.socket.android.utils.SPUtils
+import com.senyint.ihospital.user.kt.db.table.ImNewNumTable
 import dao.ljb.kt.core.DaoFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -21,6 +23,7 @@ import mvp.ljb.kt.presenter.getContextEx
  **/
 class MainPresenter : BaseRxLifePresenter<MainContract.IView>(), MainContract.IPresenter {
 
+    private val mNewNumTable = ImNewNumTable()
 
     override fun initSocket() {
         val userJson = SPUtils.getString(Constant.SPKey.KEY_USER)
@@ -40,5 +43,16 @@ class MainPresenter : BaseRxLifePresenter<MainContract.IView>(), MainContract.IP
                     getMvpView().setTableInitResult(false)
                 }).bindRxLifeEx(RxLife.ON_DESTROY)
     }
+
+    override fun queryNewNum() {
+        DaoFactory.getProtocol(INewNumDaoProtocol::class.java)
+                .queryNewNum(mNewNumTable)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeEx(onNext = {
+                    getMvpView().updateNewNum(it)
+                }).bindRxLifeEx(RxLife.ON_DESTROY)
+    }
+
 
 }
