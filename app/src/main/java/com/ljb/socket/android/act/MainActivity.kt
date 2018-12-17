@@ -64,6 +64,7 @@ class MainActivity : BaseMvpFragmentActivity<MainContract.IPresenter>(), MainCon
 
     override fun initData() {
         getPresenter().initTable()
+        getPresenter().queryNewNum()
     }
 
     override fun initView() {
