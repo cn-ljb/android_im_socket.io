@@ -10,7 +10,7 @@ object Constant {
     //socket host url
 //    const val SOCKET_HOST = "http://172.16.201 .33:9090"  //TODO loc ip  本机调试使用自己的IP，并运行service端
     const val SOCKET_HOST = "http://39.96.10.124:9090"  //my service ip 服务器端IP 已部署外网
-    const val HTTP_HOST = "http://integSer.wang"
+    const val HTTP_HOST = "http://integer.wang"
 
     object ReqCode {
         const val CODE_PIC_LIB = 0x10001
