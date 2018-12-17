@@ -8,9 +8,9 @@ package com.ljb.socket.android.common
 object Constant {
 
     //socket host url
-//    const val SOCKET_HOST = "http://192.168.1.5:9090"
-    const val SOCKET_HOST = "http://172.16.201.33:9090"
-    const val HTTP_HOST = "http://integer.wang"
+    const val SOCKET_HOST = "http://172.16.201 .33:9090"  //loc ip
+//    const val SOCKET_HOST = "http://39.96.10.124:9090"
+    const val HTTP_HOST = "http://integSer.wang"
 
     object ReqCode {
         const val CODE_PIC_LIB = 0x10001
