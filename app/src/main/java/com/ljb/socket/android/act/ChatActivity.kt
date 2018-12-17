@@ -54,7 +54,7 @@ import java.io.File
  * Time:2018/12/11
  * There is a lot of misery in life
  **/
-class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatContract.IView, OnChatActionListener, RecordIndicator.OnRecordListener, CBEmoticonsView.OnEmoticonClickListener {
+open class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatContract.IView, OnChatActionListener, RecordIndicator.OnRecordListener, CBEmoticonsView.OnEmoticonClickListener {
 
     companion object {
         const val MAX_VOICE_TIME = 60
@@ -232,9 +232,7 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
 
             override fun onFinish(audioPath: Uri, duration: Int) {
                 Log.i("voice", "$duration :: " + audioPath.path)
-                if (duration > 1) {
-                    sendMp3Msg(audioPath.path, duration.toLong())
-                }
+                sendMp3Msg(audioPath.path, duration.toLong())
             }
 
             override fun onAudioDBChanged(db: Int) {
@@ -407,7 +405,7 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
     }
 
     private fun sendMp3Msg(path: String, time: Long) {
-        if (TextUtils.isEmpty(path)) return
+        if (time < 1 || TextUtils.isEmpty(path) || !File(path).exists()) return
         getPresenter().sendMp3Msg(path, time, mLocUser.uid, mToUser.uid)
     }
 
