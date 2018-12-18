@@ -120,7 +120,7 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         if (mIndex != 0) {
             scrollToPosition(mIndex)
         }
-        SocketNotificationManager.cancelNotification(this, mConversation.hashCode())
+        SocketManager.cancelNotification(this, mConversation.hashCode())
         getPresenter().notifyNewNum(mConversation)
     }
 
@@ -341,10 +341,9 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         scrollToBottom()
     }
 
-    override fun notifyChatMessageStatus(chatMessage: ChatMessage, status: Int) {
+    override fun notifyChatMessageStatus(chatMessage: ChatMessage) {
         val position = mChatAdapter.data.indexOf(chatMessage)
         if (position != -1) {
-            mChatAdapter.data[position].status = status
             mChatAdapter.notifyItemChanged(position)
         }
     }

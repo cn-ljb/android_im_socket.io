@@ -1,13 +1,9 @@
 package com.ljb.socket.android.socket
 
 import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
-import android.graphics.Color
 import android.os.Build
 import android.os.IBinder
 import android.util.Log
@@ -56,9 +52,9 @@ class SocketService : Service() {
                 CMD_INIT_SOCKET -> initSocket(it)
                 CMD_RELEASE_SOCKET -> releaseSocket()
                 CMD_SEND_MSG -> sendMsg2Socket(it)
-                CMD_SEND_MSG_CALLBACK -> callMsg2UI(it)
-                CMD_SEND_ASK -> sendAsk2Socket(it)
-                CMD_CHAT_CALLBACK -> callChat2UI(it)
+                CMD_SEND_MSG_CALLBACK -> callRequest2UI(it)
+                CMD_SEND_ASK -> sendAck2Socket(it)
+                CMD_CHAT_CALLBACK -> callResponse2UI(it)
                 CMD_REMOVE_LISTENER -> removeListener()
             }
         }
@@ -89,14 +85,14 @@ class SocketService : Service() {
     }
 
 
-    private fun callChat2UI(intent: Intent) {
+    private fun callResponse2UI(intent: Intent) {
         val result = intent.getStringExtra(MSG)
         val callIntent = Intent(SocketManager.ResponseChatMsgCallReceiver.ACTION_CHAT)
         callIntent.putExtra(SocketManager.ResponseChatMsgCallReceiver.RESULT, result)
         sendBroadcast(callIntent)
     }
 
-    private fun callMsg2UI(intent: Intent) {
+    private fun callRequest2UI(intent: Intent) {
         val msgId = intent.getStringExtra(MSG_ID)
         val result = intent.getStringExtra(DATA)
 
@@ -108,10 +104,10 @@ class SocketService : Service() {
     }
 
 
-    private fun sendAsk2Socket(intent: Intent) {
+    private fun sendAck2Socket(intent: Intent) {
         val msg = intent.getStringExtra(MSG)
         val event = intent.getStringExtra(MSG_EVENT)
-        SocketClient.sendAsk(this, event, msg)
+        SocketClient.sendAck(this, event, msg)
     }
 
 
@@ -128,7 +124,7 @@ class SocketService : Service() {
     }
 
     private fun releaseSocket() {
-        SocketClient.release()
+        SocketClient.releaseAll()
         stopSelf()
     }
 

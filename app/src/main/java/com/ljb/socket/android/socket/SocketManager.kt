@@ -45,6 +45,62 @@ import java.lang.ref.WeakReference
  **/
 object SocketManager {
 
+    /**
+     * 发送消息的CallBack
+     * */
+    interface RequestCallBack {
+        fun call(msg: String)
+    }
+
+
+    /**
+     * 发送消息的CallBack处理广播
+     * */
+    class RequestChatMsgCallReceiver : BroadcastReceiver() {
+
+        companion object {
+            const val ACTION = "${BuildConfig.APPLICATION_ID}.ACTION_CHAT_MSG_REQUEST"
+            const val MSG_ID = "pid"
+            const val RESULT = "callResult"
+        }
+
+        override fun onReceive(context: Context?, intent: Intent?) {
+            if (ACTION != intent?.action) return
+            val msgId = intent.getStringExtra(MSG_ID)
+            val result = intent.getStringExtra(RESULT)
+
+            mRequestCallMap[msgId]?.let {
+                Log.i(SocketService.TAG, "Socket 发送完成后，回调给UI")
+                it.call(result)
+            }
+            mRequestCallMap.remove(msgId)
+        }
+
+    }
+
+    /**
+     * 接收消息的CallBack广播
+     * */
+    class ResponseChatMsgCallReceiver : BroadcastReceiver() {
+
+        companion object {
+            const val ACTION = "${BuildConfig.APPLICATION_ID}.ACTION_CHAT_MSG_RESPONSE"
+            const val ACTION_CONFLICT = "${BuildConfig.APPLICATION_ID}.ACTION_CHAT_MSG_RESPONSE_CONFLICT"
+            const val ACTION_CHAT = "${BuildConfig.APPLICATION_ID}.ACTION_CHAT_MSG_RESPONSE_CHAT"
+            const val RESULT = "callResult"
+        }
+
+        override fun onReceive(context: Context, intent: Intent?) {
+            if (TextUtils.isEmpty(intent?.action)) return
+            val type = intent!!.action
+            val result = intent.getStringExtra(RESULT)
+            when (type) {
+                ACTION_CONFLICT -> responseConflict(context, result)
+                ACTION_CHAT -> responseChat(context, result)
+            }
+        }
+    }
+
     private val mRequestCallMap = HashMap<String, RequestCallBack?>()
     private var mRequestCallReceiver: RequestChatMsgCallReceiver? = null
     private var mResponseCallReceiver: ResponseChatMsgCallReceiver? = null
@@ -150,7 +206,7 @@ object SocketManager {
     /**
      * 发送已接收消息响应
      * */
-    private fun sendAsk(context: Context, event: String, msg: String) {
+    private fun sendAck(context: Context, event: String, msg: String) {
         val intent = Intent(context, SocketService::class.java)
         intent.putExtra(SocketService.CMD, SocketService.CMD_SEND_ASK)
         intent.putExtra(SocketService.MSG, msg)
@@ -164,65 +220,12 @@ object SocketManager {
         }
     }
 
-    /**
-     * 发送消息的CallBack，配合软引用，避免内存泄漏
-     * */
-    interface RequestCallBack {
-        fun call(msg: String)
-    }
 
-    /**
-     * 发送消息的CallBack处理广播
-     * */
-    class RequestChatMsgCallReceiver : BroadcastReceiver() {
-
-        companion object {
-            const val ACTION = "${BuildConfig.APPLICATION_ID}.ACTION_CHAT_MSG_REQUEST"
-            const val MSG_ID = "pid"
-            const val RESULT = "callResult"
-        }
-
-        override fun onReceive(context: Context?, intent: Intent?) {
-            if (ACTION != intent?.action) return
-            val msgId = intent.getStringExtra(MSG_ID)
-            val result = intent.getStringExtra(RESULT)
-
-            mRequestCallMap[msgId]?.let {
-                Log.i(SocketService.TAG, "Socket 发送成功后，回调给UI")
-                it.call(result)
-            }
-            mRequestCallMap.remove(msgId)
-        }
-
-    }
-
-    /**
-     * 接收消息的CallBack广播
-     * */
-    class ResponseChatMsgCallReceiver : BroadcastReceiver() {
-
-        companion object {
-            const val ACTION = "${BuildConfig.APPLICATION_ID}.ACTION_CHAT_MSG_RESPONSE"
-            const val ACTION_CONFLICT = "${BuildConfig.APPLICATION_ID}.ACTION_CHAT_MSG_RESPONSE_CONFLICT"
-            const val ACTION_CHAT = "${BuildConfig.APPLICATION_ID}.ACTION_CHAT_MSG_RESPONSE_CHAT"
-            const val RESULT = "callResult"
-        }
-
-        override fun onReceive(context: Context, intent: Intent?) {
-            if (TextUtils.isEmpty(intent?.action)) return
-            val type = intent!!.action
-            val result = intent.getStringExtra(RESULT)
-            when (type) {
-                ACTION_CONFLICT -> responseConflict(context, result)
-                ACTION_CHAT -> responseChat(context, result)
-            }
-        }
-    }
 
     /**
      * 聊天响应
      * */
-    fun responseChat(context: Context, result: String?) {
+    private fun responseChat(context: Context, result: String?) {
         if (TextUtils.isEmpty(result)) return
         val chatMessage = JsonParser.fromJsonObj(result!!, ChatMessage::class.java)
         when (chatMessage.type) {
@@ -232,11 +235,19 @@ object SocketManager {
     }
 
     /**
-     * 聊天信息
+     * 命令类型消息处理
+     * */
+    private fun handleCmdChatMessage(chatMessage: ChatMessage) {
+        when (chatMessage.cmd) {
+            ChatMessage.CMD_CONTACT_LIST -> handleContactList(chatMessage)
+        }
+    }
+
+    /**
+     * 聊天类型消息处理
      * */
     private fun handleImChatMessage(context: Context, chatMessage: ChatMessage) {
-        //已接收到消息 , 回调服务器端
-        sendAsk(context, SocketEvent.EVENT_CHAT, ChatUtils.getAck(chatMessage))
+        sendAck(context, SocketEvent.EVENT_CHAT, ChatUtils.getAck(chatMessage))
         val conversation = ChatUtils.createConversation(chatMessage.topic, chatMessage.fromId, chatMessage.toId)
         val historyTable = ImHistoryTable(conversation)
         val newNumTable = ImNewNumTable()
@@ -260,14 +271,8 @@ object SocketManager {
     }
 
     /**
-     * 命令类型消息处理
+     * 联系人列表消息处理
      * */
-    private fun handleCmdChatMessage(chatMessage: ChatMessage) {
-        when (chatMessage.cmd) {
-            ChatMessage.CMD_CONTACT_LIST -> handleContactList(chatMessage)
-        }
-    }
-
     private fun handleContactList(chatMessage: ChatMessage) {
         val table = ContactTable()
         val body = chatMessage.body
@@ -286,6 +291,7 @@ object SocketManager {
         mRxLife.add(WeakReference(disposable))
     }
 
+    //排除自己
     private fun transformContactList(contactList: MutableList<UserBean>): MutableList<UserBean> {
         var index = -1
         val uid = SPUtils.getString(Constant.SPKey.KEY_UID)
@@ -306,8 +312,15 @@ object SocketManager {
      * 用户冲突响应
      * */
     private fun responseConflict(context: Context, result: String?) {
+        //TODO 待完善(当前版本暂不支持，需要服务端持久化用户后，再实现)
         Toast.makeText(context.applicationContext, "您的账号在另一台设备登陆", Toast.LENGTH_SHORT).show()
-        //TODO 待完善
+    }
+
+    /**
+     * 根据ID关闭通知栏
+     * */
+    fun cancelNotification(context: Context, id: Int) {
+        SocketNotificationManager.cancelNotification(context, id)
     }
 
 

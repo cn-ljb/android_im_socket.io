@@ -4,7 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
+import com.ljb.socket.android.model.ChatMessage
 import com.ljb.socket.android.socket.SocketService
+import com.ljb.socket.android.utils.JsonParser
 import io.socket.client.Ack
 
 /**

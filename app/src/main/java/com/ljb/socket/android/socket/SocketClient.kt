@@ -1,6 +1,8 @@
 package com.ljb.socket.android.socket
 
 import android.content.Context
+import android.content.Intent
+import android.os.Build
 import android.util.Log
 import com.ljb.socket.android.common.Constant
 import com.ljb.socket.android.socket.listener.*
@@ -28,7 +30,7 @@ object SocketClient {
     private var mToken: String? = null
 
     @JvmStatic
-    private var isLinked = false
+    var isLinked = false
 
     private var mConnectListener: Emitter.Listener? = null
 
@@ -84,7 +86,7 @@ object SocketClient {
     /**
      * 销毁当前Socket
      * */
-    fun release() {
+    fun releaseAll() {
         mSocket?.let {
             close()
             removeSocketListener()
@@ -96,17 +98,15 @@ object SocketClient {
 
 
     /**
-     * 发送Ask已接收通知
+     * 发送Ack已接收通知
      * */
-    fun sendAsk(context: Context, event: String, msg: String) {
+    fun sendAck(context: Context, event: String, msg: String) {
         if (checkSocketStatus()) {
-            sendAskImpl(event, msg)
-        } else {
-            reSend(context) { sendAskImpl(event, msg) }
+            sendAckImpl(event, msg)
         }
     }
 
-    private fun sendAskImpl(event: String, msg: String) {
+    private fun sendAckImpl(event: String, msg: String) {
         mSocket!!.let {
             Log.i(SocketService.TAG, "socket 发送Ask：$msg")
             it.emit(event, JSONObject(msg))
@@ -117,22 +117,15 @@ object SocketClient {
      * 重新创建socket 并且重新发送
      * */
     private fun reSend(context: Context, sendFun: () -> Unit) {
-        init(context, mToken!!)
-        val timer = Timer()
-        Log.i(SocketService.TAG, "reSend()")
-        timer.schedule(object : TimerTask() {
-            private var count = 0
-            override fun run() {
-                Log.i(SocketService.TAG, "socket 未连接，准备重新发送")
-                count++
-                if (isLinked) {
-                    timer.cancel()
-                    sendFun.invoke()
-                } else if (count > 10) {
-                    timer.cancel()
-                }
-            }
-        }, 1000, 3000)
+
+    }
+
+    private fun startService(appContext: Context, intent: Intent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            appContext.startForegroundService(intent)
+        } else {
+            appContext.startService(intent)
+        }
     }
 
     /**
@@ -150,6 +143,8 @@ object SocketClient {
         if (checkSocketStatus()) {
             sendMsgImpl(context, event, msg, msgId)
         } else {
+            MsgCallError(context, event, msg, msgId).run()
+
             reSend(context) { sendMsgImpl(context, event, msg, msgId) }
         }
     }
@@ -203,7 +198,8 @@ object SocketClient {
             val result = if (args.isNotEmpty()) args[0].toString() else args.toString()
             Log.i(SocketService.TAG, "socket 链接已断开 -> $result")
             isLinked = false
-            release()
+            releaseAll()
+
             //延时3秒重新开启Socket
             RxUtils.dispose(reNewSocketSubscription)
             reNewSocketSubscription = Observable.timer(3000, TimeUnit.MILLISECONDS)
@@ -223,23 +219,12 @@ object SocketClient {
             val result = if (args.isNotEmpty()) args[0].toString() else args.toString()
             Log.i(SocketService.TAG, "socket 连接发生错误 -> $result")
             isLinked = false
-//            release()
-//            //延时3秒重新开启Socket
-//            RxUtils.unsubscribe(reNewSocketSubscription)
-//            reNewSocketSubscription = Observable.timer(3000, TimeUnit.MILLISECONDS)
-//                    .subscribe { checkSocketStatus(context) }
         }
         mConnectTimeOutListener = ConnectTimeOutListener(context, mSocket)
         mDataErrorListener = DataErrorListener(context)
-        addSocketListener()
-    }
 
-    /**
-     * 添加监听器
-     */
-    private fun addSocketListener() {
         mSocket?.apply {
-            Log.i(SocketService.TAG, "socket 添加消息监听器")
+            Log.i(SocketService.TAG, "socket 初始化监听器")
             on(SocketEvent.EVENT_CHAT, mChatMessageListener)
             on(SocketEvent.EVENT_CONFLICT, mLoginConflictListener)
             on(Socket.EVENT_CONNECT, mConnectListener)
@@ -249,6 +234,7 @@ object SocketClient {
             on(Socket.EVENT_ERROR, mDataErrorListener)
         }
     }
+
 
     /**
      * 清除监听器

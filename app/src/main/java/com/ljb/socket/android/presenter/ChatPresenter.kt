@@ -206,7 +206,9 @@ class ChatPresenter : BaseRxLifePresenter<ChatContract.IView>(), ChatContract.IP
         val json = JsonParser.toJson(chatMessage)
         SocketManager.sendMsg(getContextEx(), SocketEvent.EVENT_CHAT, json, object : SocketManager.RequestCallBack {
             override fun call(msg: String) {
-                getMvpView().notifyChatMessageStatus(chatMessage, ChatMessage.MSG_STATUS_SEND_SUCCESS)
+                val ack = JsonParser.fromJsonObj(msg, ChatMessage::class.java)
+                chatMessage.status = ack.status
+                getMvpView().notifyChatMessageStatus(chatMessage)
                 updateHistoryAndConversation(chatMessage)
             }
         })

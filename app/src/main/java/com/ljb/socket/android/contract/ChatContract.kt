@@ -15,7 +15,7 @@ interface ChatContract {
     interface IView : IViewContract {
         fun setChatHistory(isLoadMore: Boolean, data: List<ChatMessage>)
         fun addChatMessage2UI(chatMessage: ChatMessage)
-        fun notifyChatMessageStatus(chatMessage: ChatMessage, status: Int)
+        fun notifyChatMessageStatus(chatMessage: ChatMessage)
         fun openPhotoListPage(index: Int, picList: ArrayList<String>)
         fun playVoice(position: Int, path: String, animView: ImageView)
     }
