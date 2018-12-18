@@ -37,6 +37,7 @@ import com.ljb.socket.android.model.ChatMessage
 import com.ljb.socket.android.model.UserBean
 import com.ljb.socket.android.presenter.ChatPresenter
 import com.ljb.socket.android.socket.SocketManager
+import com.ljb.socket.android.socket.notify.SocketNotificationManager
 import com.ljb.socket.android.utils.*
 import com.lqr.audio.AudioPlayManager
 import com.lqr.audio.AudioRecordManager
@@ -119,6 +120,7 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         if (mIndex != 0) {
             scrollToPosition(mIndex)
         }
+        SocketNotificationManager.cancelNotification(this, mConversation.hashCode())
         getPresenter().notifyNewNum(mConversation)
     }
 

@@ -117,6 +117,11 @@ object SocketNotificationManager {
     }
 
 
+    fun cancelNotification(context: Context, notifId: Int) {
+        val notifManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        notifManager.cancel(notifId)
+    }
+
     fun releaseAll() {
         mRxLife.map { RxUtils.dispose(it.get()) }
         mRxLife.clear()
