@@ -23,8 +23,12 @@ object SocketNotificationChannel {
         val notificationChannel = NotificationChannel(channelId, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
         notificationChannel.enableLights(true)
         notificationChannel.lightColor = Color.RED
+        notificationChannel.enableVibration(true)
+        notificationChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 100)
+        notificationChannel.setSound(null,null)
         notificationChannel.setShowBadge(true)
         notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
+
         val manager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         manager.createNotificationChannel(notificationChannel)
     }

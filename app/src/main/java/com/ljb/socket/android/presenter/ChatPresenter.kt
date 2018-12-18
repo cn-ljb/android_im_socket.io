@@ -84,7 +84,7 @@ class ChatPresenter : BaseRxLifePresenter<ChatContract.IView>(), ChatContract.IP
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(onNext = {
                     getMvpView().openPhotoListPage(it.first, it.second)
-                })
+                }).bindRxLifeEx(RxLife.ON_DESTROY)
     }
 
     private fun transformPicData(pid: String, list: List<ChatMessage>): Pair<Int, ArrayList<String>> {
@@ -173,7 +173,7 @@ class ChatPresenter : BaseRxLifePresenter<ChatContract.IView>(), ChatContract.IP
         })
     }
 
-    override fun sendMp3Msg(path: String, time: Long, fromId: String, toId: String) {
+    override fun sendVoiceMsg(path: String, time: Long, fromId: String, toId: String) {
         val tempBody = JsonParser.toJson(BodyVoice(path, time.toString()))
         val chatMessage = ChatUtils.createChatMessage(mTopic, fromId, toId, ChatMessage.MSG_BODY_TYPE_VOICE, tempBody)
         getMvpView().addChatMessage2UI(chatMessage)
@@ -192,7 +192,7 @@ class ChatPresenter : BaseRxLifePresenter<ChatContract.IView>(), ChatContract.IP
         })
     }
 
-    protected fun updateHistoryAndConversation(chatMsg: ChatMessage, next: (() -> Unit)? = null) {
+    private fun updateHistoryAndConversation(chatMsg: ChatMessage, next: (() -> Unit)? = null) {
         DaoFactory.getProtocol(IChatHistoryDaoProtocol::class.java).insertHistory(mHistoryTable, chatMsg)
                 .flatMap { DaoFactory.getProtocol(IChatHistoryDaoProtocol::class.java).insertConversation(ImConversationTable(), chatMsg) }
                 .subscribeOn(Schedulers.io())

@@ -207,7 +207,7 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         kbBar.btnSend.setOnClickListener {
             val text = kbBar.etChat.text.toString()
             kbBar.etChat.setText("")
-            onSendTextClick(text)
+            sendTextMsg(text)
         }
         kbBar.etChat.setOnSizeChangedListener { _, _, _, _ -> scrollToBottom() }
 
@@ -229,7 +229,7 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
 
             override fun onFinish(audioPath: Uri, duration: Int) {
                 Log.i("voice", "$duration :: " + audioPath.path)
-                sendMp3Msg(audioPath.path, duration.toLong())
+                sendVoiceMsg(audioPath.path, duration.toLong())
             }
 
             override fun onAudioDBChanged(db: Int) {
@@ -388,14 +388,19 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         PermissionUtils.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+    private fun sendTextMsg(text: String) {
+        if (TextUtils.isEmpty(text)) return
+        getPresenter().sendTextMsg(text, mLocUser.uid, mToUser.uid)
+    }
+
     private fun sendImgMsg(path: String) {
         if (TextUtils.isEmpty(path)) return
         getPresenter().sendImgMsg(path, mLocUser.uid, mToUser.uid)
     }
 
-    private fun sendMp3Msg(path: String, time: Long) {
+    private fun sendVoiceMsg(path: String, time: Long) {
         if (time < 1 || TextUtils.isEmpty(path) || !File(path).exists()) return
-        getPresenter().sendMp3Msg(path, time, mLocUser.uid, mToUser.uid)
+        getPresenter().sendVoiceMsg(path, time, mLocUser.uid, mToUser.uid)
     }
 
     override fun onEmoticonClick(emoticon: EmoticonsBean, isDel: Boolean) {
@@ -412,11 +417,6 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
                 editable.insert(index, content)
             }
         }
-    }
-
-    private fun onSendTextClick(text: String) {
-        if (TextUtils.isEmpty(text)) return
-        getPresenter().sendTextMsg(text, mLocUser.uid, mToUser.uid)
     }
 
     override fun onChatVoiceClick(position: Int, voiceUrl: String, animView: ImageView) {
@@ -482,11 +482,6 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         PhotoListActivity.statrtActivity(this, picList, index)
     }
 
-
-    private fun getTopic(): String {
-        return "chat"
-    }
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     fun onNewMsgEvent(chatNewEvent: ChatNewEvent) {
         responseChatMessage(chatNewEvent.chatMessage)
@@ -503,5 +498,7 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         }
     }
 
-
+    private fun getTopic(): String {
+        return "chat"
+    }
 }

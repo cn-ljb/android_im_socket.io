@@ -27,7 +27,7 @@ interface ChatContract {
         fun getChatHistory()
         fun sendTextMsg(text: String, fromId: String, toId: String)
         fun sendImgMsg(path: String, fromId: String, toId: String)
-        fun sendMp3Msg(path: String, time: Long, fromId: String, toId: String)
+        fun sendVoiceMsg(path: String, time: Long, fromId: String, toId: String)
         fun gatAllChatPic(pic: String)
         fun setVoiceIsRead(chatMessage: ChatMessage)
         fun downFile(voiceUrl: String, filePath: String, position: Int, animView: ImageView)

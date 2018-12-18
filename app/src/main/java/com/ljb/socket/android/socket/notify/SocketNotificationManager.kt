@@ -102,9 +102,14 @@ object SocketNotificationManager {
                 .setSmallIcon(R.mipmap.icon_app)
                 .setLargeIcon(data.bitmap)
                 .setContentIntent(data.pIntent)
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notifBuilder.setChannelId(BuildConfig.APPLICATION_ID)
+        } else {
+            notifBuilder.setPriority(Notification.PRIORITY_HIGH)
+            notifBuilder.setDefaults(Notification.DEFAULT_SOUND or Notification.DEFAULT_VIBRATE)
         }
+
         val notification = notifBuilder.build()
         notification.flags = Notification.FLAG_AUTO_CANCEL
         val notifManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
