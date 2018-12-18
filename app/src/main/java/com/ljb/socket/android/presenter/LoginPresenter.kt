@@ -68,7 +68,7 @@ class LoginPresenter : BaseRxLifePresenter<LoginContract.IView>(), LoginContract
 
     override fun onDestroy() {
         super.onDestroy()
-        mFileUploadManager.release()
+        mFileUploadManager.releaseAll()
     }
 
 }

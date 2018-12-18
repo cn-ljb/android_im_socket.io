@@ -54,7 +54,7 @@ import java.io.File
  * Time:2018/12/11
  * There is a lot of misery in life
  **/
-open class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatContract.IView, OnChatActionListener, RecordIndicator.OnRecordListener, CBEmoticonsView.OnEmoticonClickListener {
+class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatContract.IView, OnChatActionListener, RecordIndicator.OnRecordListener, CBEmoticonsView.OnEmoticonClickListener {
 
     companion object {
         const val MAX_VOICE_TIME = 60
@@ -79,12 +79,12 @@ open class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), Ch
         }
     }
 
-    protected lateinit var mLocUser: UserBean
-    protected lateinit var mToUser: UserBean
+    private lateinit var mLocUser: UserBean
+    private lateinit var mToUser: UserBean
 
-    protected lateinit var mConversation: String
+    private lateinit var mConversation: String
 
-    protected lateinit var mEventBus: EventBus
+    private lateinit var mEventBus: EventBus
 
     private var mRvView: RecyclerView? = null
     private var mKbView: CBEmoticonsKeyBoard? = null
@@ -193,7 +193,7 @@ open class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), Ch
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    protected fun initKeyBoard(kb_bar: CBEmoticonsKeyBoard) {
+    private fun initKeyBoard(kb_bar: CBEmoticonsKeyBoard) {
         mKbView = kb_bar
         kb_bar.addOnFuncKeyBoardListener(object : FuncLayout.OnFuncKeyBoardListener {
             override fun onFuncPop(height: Int) {
@@ -242,7 +242,7 @@ open class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), Ch
     }
 
 
-    protected fun initRecyclerView(rvView: RecyclerView) {
+    private fun initRecyclerView(rvView: RecyclerView) {
         mRvView = rvView
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         linearLayoutManager.isAutoMeasureEnabled = true
@@ -257,7 +257,7 @@ open class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), Ch
         rvView.adapter = mChatAdapter
     }
 
-    protected open fun initRefreshView(refresh_view: XRefreshView) {
+    private fun initRefreshView(refresh_view: XRefreshView) {
         refresh_view.setCustomHeaderView(ChatRefreshViewHeader(this))
         refresh_view.setPinnedTime(1000)
         refresh_view.pullLoadEnable = false
@@ -275,7 +275,7 @@ open class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), Ch
     }
 
 
-    protected fun optionTakePic() {
+    private fun optionTakePic() {
         PermissionUtils.requestPermission(this, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 , CODE_PERMISSION_TAKE_PIC) { _, result ->
             if (result.isNotEmpty() && result[0] == PackageManager.PERMISSION_GRANTED) {
@@ -286,7 +286,7 @@ open class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), Ch
     }
 
 
-    protected fun optionPicLib() {
+    private fun optionPicLib() {
         SystemUtils.openPicLibForResult(this, CODE_REQ_PIC_LIB)
     }
 
@@ -300,12 +300,12 @@ open class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), Ch
         }
     }
 
-    protected fun picLibResult(data: Intent) {
+    private fun picLibResult(data: Intent) {
         val path = SystemUtils.getPicLibResult(this, data)
         sendImgMsg(path)
     }
 
-    protected fun takePicResult(path: String) {
+    private fun takePicResult(path: String) {
         if (TextUtils.isEmpty(path)) return
         val file = File(path)
         val newFile = File(FileUtils.getSmallPicDir(this), file.name)
@@ -358,12 +358,12 @@ open class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), Ch
     }
 
 
-    protected fun scrollToBottom() {
+    private fun scrollToBottom() {
         if (mChatAdapter.itemCount == 0) return
         mRvView?.scrollToPosition(mChatAdapter.itemCount - 1)
     }
 
-    protected fun scrollToPosition(position: Int) {
+    private fun scrollToPosition(position: Int) {
         if (mChatAdapter.itemCount == 0) return
         mRvView?.smoothScrollToPosition(position)
     }
@@ -389,8 +389,7 @@ open class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), Ch
         val arr = arrayOf(Manifest.permission.RECORD_AUDIO, Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.WAKE_LOCK)
-
-        PermissionUtils.requestPermission(this, arr, CODE_PERMISSION_IM) { permissions, result ->
+        PermissionUtils.requestPermission(this, arr, CODE_PERMISSION_IM) { _, _ ->
         }
     }
 
@@ -500,16 +499,15 @@ open class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), Ch
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    open fun onNewMsgEvent(chatNewEvent: ChatNewEvent) {
+    fun onNewMsgEvent(chatNewEvent: ChatNewEvent) {
         responseChatMessage(chatNewEvent.chatMessage)
     }
 
     /**
      * 响应接收到的数据
      * */
-    open fun responseChatMessage(chatMessage: ChatMessage) {
+    private fun responseChatMessage(chatMessage: ChatMessage) {
         if (chatMessage.conversation == mConversation) {
-            val bodyType = chatMessage.bodyType
             mChatAdapter.data.add(chatMessage)
             scrollToBottom()
             getPresenter().notifyNewNum(mConversation)

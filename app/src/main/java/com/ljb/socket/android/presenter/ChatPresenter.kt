@@ -41,8 +41,8 @@ class ChatPresenter : BaseRxLifePresenter<ChatContract.IView>(), ChatContract.IP
     private var mMsgCount = 0
     private var mLimitStart = 0
     private var mLimitEnd = 0
-    protected lateinit var mHistoryTable: ImHistoryTable
-    protected val mNewNumTable = ImNewNumTable()
+    private lateinit var mHistoryTable: ImHistoryTable
+    private val mNewNumTable = ImNewNumTable()
 
     private val mFileUploadManager by lazy { FileUploadManager(getContextEx()) }
 
@@ -215,7 +215,7 @@ class ChatPresenter : BaseRxLifePresenter<ChatContract.IView>(), ChatContract.IP
 
     override fun onDestroy() {
         super.onDestroy()
-        mFileUploadManager.release()
+        mFileUploadManager.releaseAll()
     }
 }
 

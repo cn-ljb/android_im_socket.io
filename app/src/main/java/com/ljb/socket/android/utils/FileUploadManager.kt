@@ -137,7 +137,7 @@ class FileUploadManager(var mContext: Context?) {
     }
 
 
-    fun release() {
+    fun releaseAll() {
         mRxLife.map {
             RxUtils.dispose(it.get())
         }
