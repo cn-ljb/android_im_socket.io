@@ -51,8 +51,6 @@ dependencies {
     }
     // eventbus
     implementation 'org.greenrobot:eventbus:3.1.1'
-    // refresh view
-    implementation 'com.huxq17.xrefreshview:xrefreshview:3.6.9'
     //photoView
     implementation 'com.github.chrisbanes:PhotoView:2.1.4'
     // mvp

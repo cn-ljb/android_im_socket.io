@@ -16,8 +16,13 @@
         android:layout_below="@id/rl_title">
 
 
-        <com.andview.refreshview.XRefreshView
-            android:id="@+id/refresh_view"
+        <!--<com.andview.refreshview.XRefreshView-->
+        <!--android:id="@+id/refresh_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent">-->
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -26,7 +31,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
 
-        </com.andview.refreshview.XRefreshView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+        <!--</com.andview.refreshview.XRefreshView>-->
 
 
     </com.codebear.keyboard.CBEmoticonsKeyBoard>

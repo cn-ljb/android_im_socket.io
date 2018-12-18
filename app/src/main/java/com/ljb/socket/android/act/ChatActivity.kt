@@ -9,6 +9,7 @@ import android.content.pm.PackageManager
 import android.graphics.drawable.AnimationDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SimpleItemAnimator
@@ -17,7 +18,6 @@ import android.util.Log
 import android.view.KeyEvent
 import android.widget.ImageView
 import android.widget.Toast
-import com.andview.refreshview.XRefreshView
 import com.codebear.keyboard.CBEmoticonsKeyBoard
 import com.codebear.keyboard.data.AppFuncBean
 import com.codebear.keyboard.data.EmoticonsBean
@@ -38,7 +38,6 @@ import com.ljb.socket.android.model.UserBean
 import com.ljb.socket.android.presenter.ChatPresenter
 import com.ljb.socket.android.socket.SocketManager
 import com.ljb.socket.android.utils.*
-import com.ljb.socket.android.widgets.ChatRefreshViewHeader
 import com.lqr.audio.AudioPlayManager
 import com.lqr.audio.AudioRecordManager
 import com.lqr.audio.IAudioPlayListener
@@ -83,13 +82,11 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
     private lateinit var mToUser: UserBean
 
     private lateinit var mConversation: String
-
     private lateinit var mEventBus: EventBus
+    private lateinit var mChatAdapter: ChatAdapter
+    private lateinit var mAudioRecordManager: AudioRecordManager
 
-    private var mRvView: RecyclerView? = null
-    private var mKbView: CBEmoticonsKeyBoard? = null
 
-    protected lateinit var mChatAdapter: ChatAdapter
     private var mIndex = 0
 
     private var mTakePicPath: String = ""
@@ -98,8 +95,6 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
 
     private var mStartRecorderMp3Time: Long = 0L
     private var mLvAudio: Int = 0
-
-    private lateinit var mAudioRecordManager: AudioRecordManager
 
     override fun getLayoutId() = R.layout.activity_chat
 
@@ -152,7 +147,7 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         tv_title.text = if (TextUtils.isEmpty(mToUser.name)) "正在聊天..." else mToUser.name
         iv_back.setOnClickListener { back() }
         initRecyclerView(rv_chat)
-        initRefreshView(refresh_view)
+        initRefreshView(refresh_layout)
         initKeyBoard(kb_bar)
         initOptions()
     }
@@ -166,10 +161,17 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         mChatAdapter.data.addAll(0, data)
         mChatAdapter.notifyDataSetChanged()
         if (isLoadMore) {
-            refresh_view.stopRefresh()
-            rv_chat.scrollToPosition(0)
+            refresh_layout.isRefreshing = false
             if (data.isEmpty()) {
                 Toast.makeText(this, R.string.not_has_chat_history, Toast.LENGTH_SHORT).show()
+            } else {
+                val layoutManager = rv_chat.layoutManager as? LinearLayoutManager
+                if (layoutManager == null) {
+                    scrollToPosition(data.size - 1)
+                } else {
+                    val visibleItemPosition = layoutManager.findLastVisibleItemPosition()
+                    scrollToPosition(visibleItemPosition + data.size - 1)
+                }
             }
         } else {
             scrollToBottom()
@@ -193,9 +195,8 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
     }
 
     @SuppressLint("ClickableViewAccessibility")
-    private fun initKeyBoard(kb_bar: CBEmoticonsKeyBoard) {
-        mKbView = kb_bar
-        kb_bar.addOnFuncKeyBoardListener(object : FuncLayout.OnFuncKeyBoardListener {
+    private fun initKeyBoard(kbBar: CBEmoticonsKeyBoard) {
+        kbBar.addOnFuncKeyBoardListener(object : FuncLayout.OnFuncKeyBoardListener {
             override fun onFuncPop(height: Int) {
                 scrollToBottom()
             }
@@ -203,25 +204,21 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
             override fun onFuncClose() {
             }
         })
-        kb_bar.btnSend.setOnClickListener {
-            val text = kb_bar.etChat.text.toString()
-            kb_bar.etChat.setText("")
+        kbBar.btnSend.setOnClickListener {
+            val text = kbBar.etChat.text.toString()
+            kbBar.etChat.setText("")
             onSendTextClick(text)
         }
-        kb_bar.etChat.setOnSizeChangedListener { _, _, _, _ -> scrollToBottom() }
-        mRvView?.setOnTouchListener { _, _ ->
-            kb_bar.reset()
-            false
-        }
+        kbBar.etChat.setOnSizeChangedListener { _, _, _, _ -> scrollToBottom() }
 
         mRecordIndicator = RecordIndicator(this)
-        kb_bar.setRecordIndicator(mRecordIndicator)
+        kbBar.setRecordIndicator(mRecordIndicator)
         mRecordIndicator!!.setOnRecordListener(this)
         mRecordIndicator!!.setMaxRecordTime(MAX_VOICE_TIME)
 
         val cbEmoticonsView = CBEmoticonsView(this)
         cbEmoticonsView.init(supportFragmentManager)
-        kb_bar.setEmoticonFuncView(cbEmoticonsView)
+        kbBar.setEmoticonFuncView(cbEmoticonsView)
         cbEmoticonsView.addEmoticonsWithName(arrayOf("default"))
         cbEmoticonsView.setOnEmoticonClickListener(this)
 
@@ -242,10 +239,11 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
     }
 
 
+    @SuppressLint("ClickableViewAccessibility")
     private fun initRecyclerView(rvView: RecyclerView) {
-        mRvView = rvView
         val linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         linearLayoutManager.isAutoMeasureEnabled = true
+        linearLayoutManager.findLastVisibleItemPosition()
         rvView.layoutManager = linearLayoutManager
         rvView.isNestedScrollingEnabled = false
         val itemAnimator = rvView.itemAnimator
@@ -255,25 +253,17 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         mChatAdapter = ChatAdapter(this, mLocUser, mToUser, mutableListOf())
         mChatAdapter.setAppActionListener(this)
         rvView.adapter = mChatAdapter
+
+        rvView.setOnTouchListener { _, _ ->
+            kb_bar.reset()
+            false
+        }
     }
 
-    private fun initRefreshView(refresh_view: XRefreshView) {
-        refresh_view.setCustomHeaderView(ChatRefreshViewHeader(this))
-        refresh_view.setPinnedTime(1000)
-        refresh_view.pullLoadEnable = false
-        refresh_view.enableReleaseToLoadMore(false)
-        refresh_view.setMoveForHorizontal(true)
-        refresh_view.setAutoLoadMore(false)
-        refresh_view.enableRecyclerViewPullUp(false)
-        refresh_view.enablePullUpWhenLoadCompleted(false)
-        refresh_view.setXRefreshViewListener(object : XRefreshView.SimpleXRefreshListener() {
-
-            override fun onRefresh(isPullDown: Boolean) {
-                getPresenter().getChatHistory()
-            }
-        })
+    private fun initRefreshView(refreshView: SwipeRefreshLayout) {
+        refreshView.setColorSchemeResources(R.color.color_238AFF)
+        refreshView.setOnRefreshListener { getPresenter().getChatHistory() }
     }
-
 
     private fun optionTakePic() {
         PermissionUtils.requestPermission(this, arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -357,15 +347,14 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         }
     }
 
-
     private fun scrollToBottom() {
         if (mChatAdapter.itemCount == 0) return
-        mRvView?.scrollToPosition(mChatAdapter.itemCount - 1)
+        rv_chat.scrollToPosition(mChatAdapter.itemCount - 1)
     }
 
     private fun scrollToPosition(position: Int) {
         if (mChatAdapter.itemCount == 0) return
-        mRvView?.smoothScrollToPosition(position)
+        rv_chat.scrollToPosition(position)
     }
 
 
@@ -378,8 +367,9 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
     }
 
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        if (EmoticonsKeyboardUtils.isFullScreen(this) && mKbView != null) {
-            val isConsum = mKbView!!.dispatchKeyEventInFullScreen(event)
+        if (EmoticonsKeyboardUtils.isFullScreen(this)) {
+            val isConsum = kb_bar.dispatchKeyEventInFullScreen(event)
+            Log.i("====", "isConsum:" + isConsum)
             return if (isConsum) isConsum else super.dispatchKeyEvent(event)
         }
         return super.dispatchKeyEvent(event)
@@ -409,17 +399,16 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
     }
 
     override fun onEmoticonClick(emoticon: EmoticonsBean, isDel: Boolean) {
-        if (mKbView == null) return
         if (isDel) {
-            mKbView!!.delClick()
+            kb_bar.delClick()
         } else {
             if ("default" == emoticon.parentTag) {
                 val content = emoticon.name
                 if (TextUtils.isEmpty(content)) {
                     return
                 }
-                val index = mKbView!!.etChat.selectionStart
-                val editable = mKbView!!.etChat.text
+                val index = kb_bar.etChat.selectionStart
+                val editable = kb_bar.etChat.text
                 editable.insert(index, content)
             }
         }
