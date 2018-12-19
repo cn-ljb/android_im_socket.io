@@ -6,7 +6,7 @@ import com.ljb.socket.android.db.DatabaseSqlHelper
 import com.ljb.socket.android.model.ChatMessage
 import com.ljb.socket.android.protocol.dao.IChatHistoryDaoProtocol
 import com.ljb.socket.android.table.ImConversationTable
-import com.senyint.ihospital.user.kt.db.table.ImHistoryTable
+import com.ljb.socket.android.table.ImHistoryTable
 import dao.ljb.kt.core.BaseDaoProtocol
 import io.reactivex.Observable
 import net.ljb.kt.utils.NetLog

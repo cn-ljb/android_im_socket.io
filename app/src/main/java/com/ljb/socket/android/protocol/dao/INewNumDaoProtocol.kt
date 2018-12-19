@@ -1,6 +1,6 @@
 package com.ljb.socket.android.protocol.dao
 
-import com.senyint.ihospital.user.kt.db.table.ImNewNumTable
+import com.ljb.socket.android.table.ImNewNumTable
 import dao.ljb.kt.core.IDaoInterface
 import io.reactivex.Observable
 

@@ -15,7 +15,6 @@ import com.ljb.socket.android.widgets.TabGroupView
  */
 class MainTabAdapter(private val mContext: Context, val mData: List<TabBean>) : TabGroupView.TabAdapter() {
 
-
     override fun getCount() = mData.size
 
     override fun createTabView(position: Int, parent: ViewGroup?): View {
@@ -34,6 +33,5 @@ class MainTabAdapter(private val mContext: Context, val mData: List<TabBean>) : 
             tvRead.visibility = View.GONE
         }
     }
-
 
 }

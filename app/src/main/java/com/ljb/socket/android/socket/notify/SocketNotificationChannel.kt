@@ -7,7 +7,6 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.support.annotation.RequiresApi
-import com.ljb.socket.android.BuildConfig
 
 /**
  * Author:Ljb

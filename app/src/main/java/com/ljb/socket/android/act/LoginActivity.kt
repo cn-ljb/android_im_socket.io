@@ -25,7 +25,6 @@ import kotlinx.android.synthetic.main.activity_login.*
  **/
 class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract.IView {
 
-
     private var mHeadUrl = ""
     private var mUserName = ""
     private lateinit var mLoadingDialog: LoadingDialog
@@ -34,11 +33,9 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
 
     override fun registerPresenter() = LoginPresenter::class.java
 
-
     override fun init(savedInstanceState: Bundle?) {
         requestInitPermission()
     }
-
 
     override fun initView() {
         mLoadingDialog = LoadingDialog(this)

@@ -34,5 +34,4 @@ abstract class BaseMvpFragmentActivity<out P : IPresenterContract> : MvpFragment
         return res
     }
 
-
 }

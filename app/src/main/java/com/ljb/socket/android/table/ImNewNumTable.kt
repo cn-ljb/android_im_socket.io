@@ -1,4 +1,4 @@
-package com.senyint.ihospital.user.kt.db.table
+package com.ljb.socket.android.table
 
 import android.provider.BaseColumns
 import com.ljb.socket.android.common.Constant

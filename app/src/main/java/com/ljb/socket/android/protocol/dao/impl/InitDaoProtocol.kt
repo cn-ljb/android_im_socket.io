@@ -5,7 +5,7 @@ import com.ljb.socket.android.db.DatabaseSqlHelper
 import com.ljb.socket.android.protocol.dao.IInitDaoProtocol
 import com.ljb.socket.android.table.ContactTable
 import com.ljb.socket.android.table.ImConversationTable
-import com.senyint.ihospital.user.kt.db.table.ImNewNumTable
+import com.ljb.socket.android.table.ImNewNumTable
 import dao.ljb.kt.core.BaseDaoProtocol
 import dao.ljb.kt.table.BaseTable
 import io.reactivex.Observable

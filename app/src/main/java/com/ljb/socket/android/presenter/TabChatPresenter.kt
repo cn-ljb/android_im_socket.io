@@ -13,7 +13,7 @@ import com.ljb.socket.android.protocol.dao.INewNumDaoProtocol
 import com.ljb.socket.android.table.ContactTable
 import com.ljb.socket.android.table.ImConversationTable
 import com.ljb.socket.android.utils.SPUtils
-import com.senyint.ihospital.user.kt.db.table.ImNewNumTable
+import com.ljb.socket.android.table.ImNewNumTable
 import dao.ljb.kt.core.DaoFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers

@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import com.ljb.socket.android.R
-import com.ljb.socket.android.SocketIOApplication
 import com.ljb.socket.android.adapter.MainTabAdapter
 import com.ljb.socket.android.common.Constant
 import com.ljb.socket.android.common.act.BaseMvpFragmentActivity

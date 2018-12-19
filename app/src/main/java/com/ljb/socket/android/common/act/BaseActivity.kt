@@ -1,7 +1,5 @@
 package com.ljb.socket.android.common.act
 
-import android.app.Activity
-import android.app.Fragment
 import android.content.res.Configuration
 import android.content.res.Resources
 import android.os.Bundle

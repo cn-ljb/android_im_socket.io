@@ -20,7 +20,7 @@ import com.ljb.socket.android.table.ContactTable
 import com.ljb.socket.android.utils.ChatUtils
 import com.ljb.socket.android.utils.RxUtils
 import com.ljb.socket.android.utils.SPUtils
-import com.senyint.ihospital.user.kt.db.table.ImNewNumTable
+import com.ljb.socket.android.table.ImNewNumTable
 import dao.ljb.kt.core.DaoFactory
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers

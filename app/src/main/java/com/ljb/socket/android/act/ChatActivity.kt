@@ -335,7 +335,6 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         return mLvAudio
     }
 
-
     override fun addChatMessage2UI(chatMessage: ChatMessage) {
         mChatAdapter.data.add(chatMessage)
         scrollToBottom()
@@ -357,7 +356,6 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         if (mChatAdapter.itemCount == 0) return
         rv_chat.scrollToPosition(position)
     }
-
 
     override fun onBackPressed() {
         back()
@@ -452,7 +450,6 @@ class ChatActivity : BaseMvpFragmentActivity<ChatContract.IPresenter>(), ChatCon
         mIndex = position
         getPresenter().gatAllChatPic(mChatAdapter.data[position].pid)
     }
-
 
     override fun playVoice(position: Int, path: String, animView: ImageView) {
         val voiceUri = Uri.fromFile(File(path))

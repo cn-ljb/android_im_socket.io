@@ -2,7 +2,7 @@ package com.ljb.socket.android.protocol.dao
 
 import com.ljb.socket.android.model.ChatMessage
 import com.ljb.socket.android.table.ImConversationTable
-import com.senyint.ihospital.user.kt.db.table.ImHistoryTable
+import com.ljb.socket.android.table.ImHistoryTable
 import dao.ljb.kt.core.IDaoInterface
 import io.reactivex.Observable
 

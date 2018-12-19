@@ -3,7 +3,6 @@ package com.ljb.socket.android.socket.notify
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import com.ljb.socket.android.SocketIOApplication
 import com.ljb.socket.android.act.MainActivity
 import com.ljb.socket.android.model.ChatMessage
 

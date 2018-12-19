@@ -5,7 +5,7 @@ import android.database.Cursor
 import android.text.TextUtils
 import com.ljb.socket.android.db.DatabaseSqlHelper
 import com.ljb.socket.android.protocol.dao.INewNumDaoProtocol
-import com.senyint.ihospital.user.kt.db.table.ImNewNumTable
+import com.ljb.socket.android.table.ImNewNumTable
 import dao.ljb.kt.core.BaseDaoProtocol
 import io.reactivex.Observable
 import net.ljb.kt.utils.NetLog
@@ -30,7 +30,7 @@ class NewNumProtocol : BaseDaoProtocol(), INewNumDaoProtocol {
     }
 
 
-    private fun insertNewNumImpl(table: ImNewNumTable, num: Int,conversation: String): Boolean {
+    private fun insertNewNumImpl(table: ImNewNumTable, num: Int, conversation: String): Boolean {
         var result = false
         val newNum = queryNewNumImpl(table, conversation)
         if (newNum != -1) {

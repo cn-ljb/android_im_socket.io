@@ -7,7 +7,7 @@ import com.ljb.socket.android.model.ChatMessage
 import com.ljb.socket.android.model.UserBean
 import com.ljb.socket.android.table.ContactTable
 import com.ljb.socket.android.table.base.BaseChatMessageTable
-import com.senyint.ihospital.user.kt.db.table.ImNewNumTable
+import com.ljb.socket.android.table.ImNewNumTable
 import dao.ljb.kt.table.BaseTable
 
 /**

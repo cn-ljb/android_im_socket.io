@@ -2,14 +2,12 @@ package com.ljb.socket.android
 
 import android.app.Activity
 import android.app.Application
-import android.app.NotificationChannel
 import android.content.ComponentCallbacks2
 import android.os.Bundle
 import android.util.Log
 import com.ljb.socket.android.common.Constant
 import com.ljb.socket.android.db.DatabaseHelperImpl
 import com.ljb.socket.android.protocol.dao.ProtocolConfig
-import com.ljb.socket.android.socket.notify.SocketNotificationChannel
 import com.ljb.socket.android.socket.notify.SocketNotificationManager
 import com.ljb.socket.android.utils.SPUtils
 import com.squareup.leakcanary.LeakCanary
@@ -39,19 +37,18 @@ class SocketIOApplication : Application(), Application.ActivityLifecycleCallback
         registerActivityLifecycleCallbacks(this)
     }
 
-
     override fun onActivityPaused(activity: Activity?) {
     }
 
     override fun onActivityResumed(activity: Activity?) {
-        Log.i("====" , "切入前台")
+        Log.i("====", "切入前台")
         SocketNotificationManager.setShowImNotification(false)
     }
 
     override fun onTrimMemory(level: Int) {
         super.onTrimMemory(level)
         if (level == ComponentCallbacks2.TRIM_MEMORY_UI_HIDDEN) {
-            Log.i("====" , "遁入后台")
+            Log.i("====", "遁入后台")
             SocketNotificationManager.setShowImNotification(true)
         }
     }
