@@ -24,8 +24,7 @@ object SocketNotificationChannel {
         notificationChannel.enableLights(true)
         notificationChannel.lightColor = Color.RED
         notificationChannel.enableVibration(true)
-        notificationChannel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 100)
-        notificationChannel.setSound(null,null)
+        notificationChannel.vibrationPattern = longArrayOf(100, 200, 300)
         notificationChannel.setShowBadge(true)
         notificationChannel.lockscreenVisibility = Notification.VISIBILITY_PUBLIC
 

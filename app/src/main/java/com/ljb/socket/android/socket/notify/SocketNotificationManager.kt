@@ -108,6 +108,7 @@ object SocketNotificationManager {
         } else {
             notifBuilder.setPriority(Notification.PRIORITY_HIGH)
             notifBuilder.setDefaults(Notification.DEFAULT_SOUND or Notification.DEFAULT_VIBRATE)
+            notifBuilder.setVibrate(longArrayOf(100, 200, 300))
         }
 
         val notification = notifBuilder.build()
