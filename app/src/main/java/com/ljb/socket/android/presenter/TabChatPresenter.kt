@@ -65,15 +65,7 @@ class TabChatPresenter : BaseRxLifePresenter<TabChatContract.IView>(), TabChatCo
         return ConversationBean(chatMessage, user, newNum)
     }
 
-
     override fun queryNewNumByConversation(conversation: String, data: MutableList<ConversationBean>) {
-        var index = -1
-        for ((i, bean) in data.withIndex()) {
-            if (conversation == bean.chatMessage.conversation) {
-                index = i
-                break
-            }
-        }
         DaoFactory.getProtocol(IChatHistoryDaoProtocol::class.java)
                 .queryConversation(mConversationTable, conversation)
                 .map { transformUserAndNewNum(it) }
@@ -81,12 +73,29 @@ class TabChatPresenter : BaseRxLifePresenter<TabChatContract.IView>(), TabChatCo
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeEx(onNext = {
                     if (it == null) return@subscribeEx
-                    if (index == -1) {
-                        getMvpView().addConversationData(it)
-                    } else {
-                        getMvpView().notifyAdapterPosition(index, it)
-                    }
+                    handleConversation(it, data)
                 }).bindRxLifeEx(RxLife.ON_DESTROY)
+    }
+
+    @Synchronized // 解决可能出现多条同一个会话bug
+    private fun handleConversation(bean: ConversationBean, data: MutableList<ConversationBean>) {
+        val index = indexOfConversation(bean.chatMessage.conversation, data)
+        if (index == -1) {
+            getMvpView().addConversationData(bean)
+        } else {
+            getMvpView().notifyAdapterPosition(index, bean)
+        }
+    }
+
+    private fun indexOfConversation(conversation: String, data: MutableList<ConversationBean>): Int {
+        var index = -1
+        for ((i, bean) in data.withIndex()) {
+            if (conversation == bean.chatMessage.conversation) {
+                index = i
+                break
+            }
+        }
+        return index
     }
 
 

@@ -53,9 +53,9 @@ class ChatHistoryDaoProtocol : BaseDaoProtocol(), IChatHistoryDaoProtocol {
         var cursor: Cursor? = null
         val contentValue = DatabaseSqlHelper.getChatMessageContentValue(table, chatMessage)
         try {
-            cursor = mSqliteDb.rawQuery("select * from ${table.getName()} where ${table.COLUMN_CONVERSATION} = '${chatMessage.conversation}'", null)
+            cursor = mSqliteDb.rawQuery("select * from ${table.getName()} where ${table.COLUMN_CONVERSATION} = ?", arrayOf(chatMessage.conversation))
             if (cursor != null && cursor.moveToNext()) {
-                val update = mSqliteDb.update(table.getName(), contentValue, "${table.COLUMN_CONVERSATION} = '${chatMessage.conversation}'", null)
+                val update = mSqliteDb.update(table.getName(), contentValue, "${table.COLUMN_CONVERSATION} = ?", arrayOf(chatMessage.conversation))
                 result = update > 0
             } else {
                 val insert = mSqliteDb.insert(table.getName(), null, contentValue)
