@@ -53,8 +53,8 @@ class LoginActivity : BaseMvpActivity<LoginContract.IPresenter>(), LoginContract
             Toast.makeText(this, R.string.input_username, Toast.LENGTH_SHORT).show()
             return
         }
-        //test to del
-//        mHeadUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1544796511703&di=f47a7d532333bac3af393120a3e366d0&imgtype=0&src=http%3A%2F%2Fdownhdlogo.yy.com%2Fhdlogo%2F640640%2F640%2F640%2F66%2F1310668179%2Fu1310668179uHwR-9E.jpeg"
+        //test  服务器暂不能使用，先用本地图片登录
+        mHeadUrl = "https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1544796511703&di=f47a7d532333bac3af393120a3e366d0&imgtype=0&src=http%3A%2F%2Fdownhdlogo.yy.com%2Fhdlogo%2F640640%2F640%2F640%2F66%2F1310668179%2Fu1310668179uHwR-9E.jpeg"
         if (TextUtils.isEmpty(mHeadUrl)) {
             Toast.makeText(this, R.string.input_head_img, Toast.LENGTH_SHORT).show()
             return

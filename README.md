@@ -18,7 +18,7 @@ kotlin + [mvp](https://github.com/cn-ljb/mvp-kotlin "mvp-kotlin") + [socket.io](
 
 		  const val SOCKET_HOST = "http://172.16.201.33:9090" //loc ip and port
 
-或者直接扫码体验：
+或者直接扫码体验：**（！！！该项目服务器已停，暂不支持扫码，建议clone本地后修改IP端口运行）**
 
 ![](https://i.imgur.com/gdOCpC4.png)
 
@@ -27,12 +27,12 @@ kotlin + [mvp](https://github.com/cn-ljb/mvp-kotlin "mvp-kotlin") + [socket.io](
 * 绿色：主动发送消息
 * 红色：被动接收消息
 
-![](https://i.imgur.com/tsmqL30.png)
+![](./img/消息传递流程图.png)
 
 
 ## 截图
 
-![](https://i.imgur.com/vy9CCkr.png)![](https://i.imgur.com/9W9tvVO.png)![](https://i.imgur.com/4so0a81.png)
+![](./img/截图1.png)![](./img/截图2.png)![](./img/截图3.png)
 
 ## 版本 
 
@@ -50,7 +50,4 @@ kotlin + [mvp](https://github.com/cn-ljb/mvp-kotlin "mvp-kotlin") + [socket.io](
 * 支持自定义消息
 * 支持离线消息
 
-## 感谢
-
-* 感谢 @峰哥、@包子的服务器支持
 
